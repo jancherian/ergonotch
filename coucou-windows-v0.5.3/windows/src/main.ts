@@ -32,6 +32,8 @@ async function main() {
   }
 
   const island = new Island(root);
+  (window as any).__island = island;
+  (window as any).__state = State;
 
   const boot = await Bridge.boot();
   if (boot) {
@@ -138,7 +140,11 @@ async function main() {
   registerShortcutHandlers(island, () => setPaused(false));
   // registerVoiceHandlers();
   // Offline: disabled Claude Code hooks, Phone Link, Integrations, WhatsApp, Updates, Spotify
-  island.launch();
+  if (IS_TAURI) {
+    island.launch();
+  } else {
+    island.fsm.reveal();
+  }
 
   // Stage 12A: Browser Live Web Preview mode
   if (!IS_TAURI) {
@@ -165,7 +171,7 @@ async function main() {
       if (State.mode === "expanded") {
         island.collapse();
       } else {
-        island.fsm.forceHome();
+        island.expand(State.defaultView());
         island.setPinned(true);
       }
     });
@@ -181,7 +187,7 @@ async function main() {
     });
     islandEl?.addEventListener("click", () => {
       if (State.mode !== "expanded") {
-        island.fsm.forceHome();
+        island.expand(State.defaultView());
         island.setPinned(true);
       }
     });

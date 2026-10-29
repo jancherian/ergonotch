@@ -94,7 +94,7 @@ async function runE2E() {
     console.log('Testing Focus Timer...');
     await tabs[0].click({ force: true });
     await page.waitForTimeout(800);
-    const startBtn = page.locator('.timer-main-container button.notch-btn.primary');
+    const startBtn = page.locator('.timer-main-container .btn-row button').first();
     if (await startBtn.count() > 0) {
       const digitsBefore = await page.locator('.notch-timer-digits').textContent();
       await startBtn.click({ force: true }); // Start Focus
