@@ -14,7 +14,10 @@
   👉 **[https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/)**  
   *Runs the complete interactive companion directly in your browser. Camera posture analysis and eye fatigue detection run in-browser using WebAssembly and local models from the same origin (no CDN, zero external calls).*
 - **📦 Windows Desktop Installer (.exe):**  
-  `Notch-Setup.exe` (25.8 MB, NSIS currentUser installer). Available in repository root and releases.
+  👉 **[Download Notch-Setup.exe (v1.0.0)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe)** (25.8 MB, NSIS `currentUser` installer, no admin required).  
+  *Release Page: [GitHub Releases v1.0.0](https://github.com/jancherian/ergonotch/releases/tag/v1.0.0)*
+- **🛡️ Windows SmartScreen Note:**  
+  *The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** and then **"Run anyway"**.*
 
 ---
 
