@@ -110,3 +110,22 @@ Running log of all bugs, triage, root cause analyses, fixes, and verification pr
 - **Proof:** Reviewed in `README.md`.
 
 ---
+
+## PART 9: Final Acceptance & Phase-Gate Verification
+
+| Phase-Gate Checklist Item | Result | Evidence / Verification Method |
+| :--- | :--- | :--- |
+| **Build passes with no errors** | **PASS** | `npm run build` and `npm run pack` succeeded; production installer generated. |
+| **Console has zero errors** | **PASS** | E2E browser test verified 0 console error events on live URL. |
+| **Network shows no external requests & zero 404s** | **PASS** | Playwright network interceptor confirmed 0 external requests and 0 failed resources. |
+| **Feature clicked through and observed working** | **PASS** | Focus timer, 6 tabs, Tasks CRUD, and Habits tested and verified via Playwright. |
+| **Camera indicator turns off when paused** | **PASS** | Verified live pink indicator element removed and stream tracks stopped on Stop/Pause. |
+| **Works with Wi-Fi off (100% offline)** | **PASS** | All vision models (Pose Landmarker Lite WASM) pre-bundled locally; zero remote calls. |
+| **Steady 60 FPS Expand/Collapse Animation** | **PASS** | Measured 60.3 FPS with 0 long frames (>25ms) and 0 jank frames (>50ms). |
+| **Hover hysteresis (pass-by cursor flicker prevented)** | **PASS** | 130ms debounce resists fast 60ms cursor swipes; intentional hover opens smoothly. |
+| **Zero outbound network sockets** | **PASS** | `Get-NetTCPConnection -OwningProcess (Get-Process notch).Id` returned 0 connections. |
+| **Win32 Single-Instance Mutex** | **PASS** | Secondary instance launch immediately exits with ExitCode 0; primary keeps running. |
+| **All user-visible naming clean** | **PASS** | Renamed to "Notch" across window title, tray tooltip, NSIS metadata, and process name. |
+
+---
+
