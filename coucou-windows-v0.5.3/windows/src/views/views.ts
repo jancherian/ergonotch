@@ -2955,7 +2955,7 @@ function buildSettings(actions: ViewActions): ViewHost {
   const versionFooter = h(
     "div",
     { style: "text-align:center;font-size:9.5px;color:#64748b;padding:4px 0;" },
-    "Notch Companion v0.5.3 · 100% Offline Desktop Companion · Coucou core (MIT)",
+    "Notch Companion v1.0.1 · 100% Offline Desktop Companion · Based on Coucou (MIT License)",
   );
 
   const scrollBody = h("div", { class: "settings-scroll-body" }, systemCard, visionCard, privacyCard, versionFooter);

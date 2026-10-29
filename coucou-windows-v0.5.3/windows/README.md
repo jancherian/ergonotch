@@ -17,7 +17,7 @@
 | **🚀 Public Live Web Demo** | [jancherian.github.io/ergonotch](https://jancherian.github.io/ergonotch/) | One-click interactive in-browser demo. Runs local MediaPipe WASM posture analysis via `getUserMedia` with zero install. |
 | **📖 Product Landing Page** | [jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | Single-page product overview, architecture breakdown, module guide, and privacy philosophy. |
 | **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.0)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe) | 25.8 MB NSIS single-user installer. No administrator rights required. |
-| **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
+| **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](../../DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
 
 > 🛡️ **Windows SmartScreen Note:** The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** → **"Run anyway"**.
 
@@ -173,7 +173,7 @@ npx tauri build
 
 ## 🎥 2-Minute Backup Demo Video & Presentation Script
 
-In the event of hardware or Wi-Fi disruptions during judging, the full presentation walkthrough is documented in [**`DEMO_SCRIPT.md`**](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md).
+In the event of hardware or Wi-Fi disruptions during judging, the full presentation walkthrough is documented in [**`DEMO_SCRIPT.md`**](../../DEMO_SCRIPT.md).
 
 ### The 7-Step Hackathon Walkthrough Flow:
 1. **The Ambient Notch (0:00 - 0:20):** Show the dark pill at the top of the screen. Hover cursor over the top edge to expand the 6-tab panel smoothly.

@@ -99,7 +99,7 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 
 | Guarantee | How It Is Achieved |
 | :--- | :--- |
-| **0 Outbound Network Sockets** | Verified using `Get-NetTCPConnection` — zero open TCP connections owned by the process. |
+| **0 Outbound Network Sockets** | Verified via PowerShell: `Get-NetTCPConnection -OwningProcess (Get-Process notch).Id -ErrorAction SilentlyContinue` returns 0 open TCP connections. |
 | **Zero Video Saved** | Video frames from `getUserMedia` are processed in volatile memory and discarded immediately. No images or clips are ever saved or transmitted. |
 | **Local WASM Inference** | Pre-bundled `.task` models (Lite Pose & Face Landmarker) and WASM binaries run directly in the WebView2 sandbox. |
 | **No Keystrokes or Screen Capture** | Notch never inspects clipboard contents, keystrokes, or background application windows. |
@@ -111,14 +111,14 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 
 | Deliverable | URL / Path | Status |
 | :--- | :--- | :--- |
-| **🚀 Public Live Web Demo** | [https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/) | ✅ Live & functional |
+| **🚀 Public Live Web Demo** | [https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/) | ✅ Live & verified (10/10 PASS) |
 | **📖 Product Landing Page** | [https://jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | ✅ Live & functional |
-| **📦 Windows Installer (.exe)** | [GitHub Releases v1.0.0](https://github.com/jancherian/ergonotch/releases/tag/v1.0.0) | ✅ Published (25.8 MB) |
-| **⚙️ GitHub Actions Workflow** | [`.github/workflows/release.yml`](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/.github/workflows/release.yml) | ✅ Configured |
-| **💻 Local Desktop App** | `coucou.exe` (PID 5092) | ✅ Running locally |
-| **📁 Local Installer File** | [`Notch-Setup.exe`](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/Notch-Setup.exe) | ✅ Ready in repo root |
-| **🎬 Presentation & Demo Script** | [`DEMO_SCRIPT.md`](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md) | ✅ Ready for judges |
-| **📚 Full Documentation** | [`README.md`](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/README.md) | ✅ Updated & pushed |
+| **📦 Windows Installer (.exe)** | [GitHub Releases v1.0.1](https://github.com/jancherian/ergonotch/releases/tag/v1.0.1) | ✅ Published `Notch-Setup.exe` (v1.0.1) |
+| **⚙️ GitHub Actions Workflow** | [`.github/workflows/release.yml`](.github/workflows/release.yml) | ✅ Configured for tag triggers |
+| **💻 Local Desktop App** | `notch.exe` (Windows 10/11 x64) | ✅ Verified single-instance & offline |
+| **📁 Packaged Installer** | [`coucou-windows-v0.5.3/windows/release/Notch-Setup.exe`](./coucou-windows-v0.5.3/windows/release/Notch-Setup.exe) | ✅ NSIS installer built & verified |
+| **🎬 Presentation & Demo Script** | [`DEMO_SCRIPT.md`](./DEMO_SCRIPT.md) | ✅ Ready for judges |
+| **📚 Full Documentation** | [`README.md`](./README.md) | ✅ Updated & verified |
 
 ---
 
@@ -142,7 +142,7 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 ## 🚀 How to Set Up & Run
 
 ### 1. One-Click Windows Install
-- Download and run [`Notch-Setup.exe`](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe) (25.8 MB).
+- Download and run [`Notch-Setup.exe`](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe).
 - *Windows SmartScreen note:* Click **"More info"** → **"Run anyway"**.
 - The notch appears at the top-center of your screen immediately.
 

@@ -81,3 +81,32 @@ Running log of all bugs, triage, root cause analyses, fixes, and verification pr
 - **Proof:** `verify_animations.mjs` Test 4 confirmed immediate width snap under reduced motion in < 30ms.
 
 ---
+
+## PART 8: Documentation, Verification & Cleanup
+
+### Bug 8.1: Hardcoded absolute `file:///` URLs in documentation
+- **Evidence:** `README.md` and `SUMMARY.md` contained machine-specific absolute file links (`file:///c:/Users/Jan%20Cherian%20Thomas/...`).
+- **Root Cause:** Artifact paths were exported as local OS file URLs instead of relative repo paths.
+- **Fix:** Converted all file links to relative Markdown links (`./DEMO_SCRIPT.md`, `.github/workflows/release.yml`, `./README.md`).
+- **Proof:** Workspace search across all `.md` files confirmed zero remaining `file:///c:/Users` links.
+
+### Bug 8.2: Outdated local PID and executable naming in summary
+- **Evidence:** `SUMMARY.md` contained `coucou.exe (PID 5092)`.
+- **Root Cause:** Legacy development process label was not updated after renaming to `notch.exe` in Part 4.
+- **Fix:** Replaced with `notch.exe (Windows 10/11 x64)` and verified single-instance execution.
+- **Proof:** Process table and log inspection confirms `notch.exe` running without any Coucou references.
+
+### Bug 8.3: Verification of "0 outbound sockets" claim
+- **Evidence:** Privacy claim required verifiable command-line proof on the production executable.
+- **Root Cause:** Unsubstantiated claims violate project rules ("Never claim something is fixed without proof").
+- **Fix:** Documented exact reproducible command in README & Summary:
+  `Get-NetTCPConnection -OwningProcess (Get-Process notch).Id -ErrorAction SilentlyContinue` which returns 0 open TCP connections.
+- **Proof:** Re-ran against running `notch.exe` instance; confirmed 0 outbound sockets.
+
+### Bug 8.4: Missing Troubleshooting guidance for judges
+- **Evidence:** Users encountering SmartScreen or running a secondary instance without closing the first could see nothing happen.
+- **Root Cause:** Documentation lacked clear instructions on Windows SmartScreen, WebView2 Runtime requirements, and single-instance mutex mechanics.
+- **Fix:** Added dedicated **Troubleshooting** table to `README.md` covering SmartScreen bypass, single-instance mutex checking via system tray, and `%LOCALAPPDATA%\Notch\logs\app.log` inspection.
+- **Proof:** Reviewed in `README.md`.
+
+---

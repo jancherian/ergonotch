@@ -5,7 +5,7 @@
 
 [![Live Web Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://jancherian.github.io/ergonotch/)
 [![Landing Page](https://img.shields.io/badge/Product-Landing%20Page-9333ea?style=for-the-badge&logo=googlechrome)](https://jancherian.github.io/ergonotch/about.html)
-[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe)
+[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](https://github.com/jancherian/ergonotch/blob/main/LICENSE)
 
 ---
@@ -16,8 +16,8 @@
 | :--- | :--- | :--- |
 | **🚀 Public Live Web Demo** | [jancherian.github.io/ergonotch](https://jancherian.github.io/ergonotch/) | One-click interactive in-browser demo. Runs local MediaPipe WASM posture analysis via `getUserMedia` with zero install. |
 | **📖 Product Landing Page** | [jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | Single-page product overview, architecture breakdown, module guide, and privacy philosophy. |
-| **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.0)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe) | 25.8 MB NSIS single-user installer. No administrator rights required. |
-| **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
+| **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.1)](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe) | NSIS single-user installer. No administrator rights required. |
+| **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
 
 > 🛡️ **Windows SmartScreen Note:** The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** → **"Run anyway"**.
 
@@ -173,7 +173,7 @@ npx tauri build
 
 ## 🎥 2-Minute Backup Demo Video & Presentation Script
 
-In the event of hardware or Wi-Fi disruptions during judging, the full presentation walkthrough is documented in [**`DEMO_SCRIPT.md`**](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md).
+In the event of hardware or Wi-Fi disruptions during judging, the full presentation walkthrough is documented in [**`DEMO_SCRIPT.md`**](./DEMO_SCRIPT.md).
 
 ### The 7-Step Hackathon Walkthrough Flow:
 1. **The Ambient Notch (0:00 - 0:20):** Show the dark pill at the top of the screen. Hover cursor over the top edge to expand the 6-tab panel smoothly.
@@ -182,6 +182,17 @@ In the event of hardware or Wi-Fi disruptions during judging, the full presentat
 4. **Honest Habits & Insights (1:10 - 1:30):** Check off a daily habit to demonstrate honest streaks. Open the Insights tab to show measured data provenance vs estimated indicators.
 5. **The Ultimate Offline Test (1:30 - 1:50):** **Turn off Wi-Fi live on stage.** Show that the focus timer, MediaPipe vision, and habit engine continue running without any hiccups.
 6. **Privacy Kill Switch (1:50 - 2:00):** Click the camera **Pause/Disable** button. Show the indicator turning off and the webcam hardware LED extinguishing immediately.
+
+---
+
+## 🔧 Troubleshooting
+
+| Issue | Cause | Solution |
+| :--- | :--- | :--- |
+| **Windows SmartScreen warning on launch** | Unsigned open-source hackathon binary. | Click **"More info"** → **"Run anyway"**. |
+| **Nothing appears when launching installer or shortcut** | Another instance of `notch.exe` is already running in background. | The built-in Win32 single-instance mutex ensures only one copy runs. Look for the Notch icon in the system tray overflow menu (`^`), or close existing background processes: `Stop-Process -Name notch -Force`. |
+| **"WebView2 Runtime not found" error** | Missing Microsoft Edge WebView2 runtime (common on older Windows 10 editions). | Windows 11 includes WebView2 by default. For Windows 10, download the free [Microsoft WebView2 Evergreen Bootstrapper](https://go.microsoft.com/fwlink/p/?LinkId=2124703). |
+| **Log file inspection for debugging** | Need to see startup diagnosis or crash hooks. | Structured app logs and panic traces are written to `%LOCALAPPDATA%\Notch\logs\app.log`. |
 
 ---
 
