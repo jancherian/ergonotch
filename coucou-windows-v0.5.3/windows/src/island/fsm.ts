@@ -52,6 +52,7 @@ export class IslandStateMachine {
   private petitHide: number | null = null;
   private homeCollapse: number | null = null;
   private greetCollapse: number | null = null;
+  private hoverEnterTimer: number | null = null;
 
   // ── Inputs ──────────────────────────────────────────────────────────────────
 
@@ -63,8 +64,14 @@ export class IslandStateMachine {
   mouseEntered() {
     if (this.openOnHover && (this.state === "hidden" || this.state === "petit") && !this.pinned) {
       this.cancelTimers();
-      this.byHover = true;
-      this.transition("home");
+      // 130ms hover hysteresis prevents cursor-pass flicker
+      this.hoverEnterTimer = window.setTimeout(() => {
+        this.hoverEnterTimer = null;
+        if ((this.state === "hidden" || this.state === "petit") && !this.pinned) {
+          this.byHover = true;
+          this.transition("home");
+        }
+      }, 130);
       return;
     }
     switch (this.state) {
@@ -85,6 +92,10 @@ export class IslandStateMachine {
   }
 
   mouseLeft() {
+    if (this.hoverEnterTimer != null) {
+      window.clearTimeout(this.hoverEnterTimer);
+      this.hoverEnterTimer = null;
+    }
     switch (this.state) {
       case "hidden":
         break;
@@ -198,6 +209,10 @@ export class IslandStateMachine {
   }
 
   cancelTimers() {
+    if (this.hoverEnterTimer != null) {
+      window.clearTimeout(this.hoverEnterTimer);
+      this.hoverEnterTimer = null;
+    }
     this.clear("petitHide");
     this.clear("homeCollapse");
     this.clear("greetCollapse");

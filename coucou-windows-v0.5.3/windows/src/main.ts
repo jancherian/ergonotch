@@ -34,6 +34,8 @@ async function main() {
   const island = new Island(root);
   (window as any).__island = island;
   (window as any).__state = State;
+  (window as any).island = island;
+  (window as any).state = State;
 
   const boot = await Bridge.boot();
   if (boot) {

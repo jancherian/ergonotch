@@ -254,6 +254,7 @@ class AppState {
 
   isPinned = false;
   paused = false;
+  isGeometryAnimating = false;
 
   uploadProgress = 0;
   uploadDuration = 2.4;

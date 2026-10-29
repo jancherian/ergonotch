@@ -698,16 +698,35 @@ export class Island {
     return { w, h, r };
   }
 
+  private shouldAnimate(): boolean {
+    if (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches) {
+      return false;
+    }
+    if (typeof document !== "undefined" && document.body.classList.contains("no-animations")) {
+      return false;
+    }
+    return true;
+  }
+
   private animateGeometry(shrinking: boolean) {
     const { w, h, r } = this.targetSize();
+    if (!this.shouldAnimate()) {
+      this.width.jump(w);
+      this.height.jump(h);
+      this.radius.jump(r);
+      this.applyGeometry();
+      State.isGeometryAnimating = false;
+      return;
+    }
+    State.isGeometryAnimating = true;
     if (shrinking) {
-      this.width.curveTowards(w);
-      this.height.curveTowards(h);
-      this.radius.curveTowards(r);
+      this.width.curveTowards(w, 280);
+      this.height.curveTowards(h, 280);
+      this.radius.curveTowards(r, 280);
     } else {
-      this.width.springTo(w);
-      this.height.springTo(h);
-      this.radius.springTo(r);
+      this.width.springTo(w, 0.32, 0.78);
+      this.height.springTo(h, 0.32, 0.78);
+      this.radius.springTo(r, 0.32, 0.78);
     }
     this.ensureRunning();
   }
@@ -890,9 +909,10 @@ export class Island {
       UploadSeq.updateCursor(State.mouseInIsland.x, State.mouseInIsland.y);
     }
 
+    const margin = State.mode === "expanded" ? 28 : HIT_MARGIN;
     const inIsland =
-      x >= rect.x - HIT_MARGIN && x <= rect.x + rect.w + HIT_MARGIN &&
-      y >= rect.y - HIT_MARGIN && y <= rect.y + rect.h + HIT_MARGIN;
+      x >= rect.x - margin && x <= rect.x + rect.w + margin &&
+      y >= rect.y - margin && y <= rect.y + rect.h + margin;
 
     // Recorded before the state machine hears of it: a transition it makes
     // right away (open on hover) reads where the pointer is, and must not see
@@ -1051,6 +1071,7 @@ export class Island {
     // spends most of its life in. Geometry still has to finish retracting.
     const settling =
       this.width.animating || this.height.animating || this.radius.animating;
+    State.isGeometryAnimating = settling;
     const busy = State.mode === "hidden"
       ? settling
       : settling ||

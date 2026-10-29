@@ -363,6 +363,14 @@ class PostureEngineImpl {
     const tick = async () => {
       if (!State.cameraActive || !this.stream || !this.videoEl) return;
 
+      // When the island is actively expanding/collapsing, skip inference to ensure 60fps animation
+      if (State.isGeometryAnimating) {
+        this.loopTimer = window.setTimeout(() => {
+          this.animFrameId = requestAnimationFrame(tick);
+        }, 80);
+        return;
+      }
+
       if (!this.isProcessing && this.videoEl.readyState >= 2 && this.landmarker) {
         this.isProcessing = true;
         try {
@@ -379,9 +387,11 @@ class PostureEngineImpl {
         }
       }
 
+      // Throttle when collapsed to ~2 fps (500ms) to conserve CPU/battery; full 5 fps when open
+      const nextDelay = State.mode === "expanded" ? frameIntervalMs : Math.max(frameIntervalMs, 500);
       this.loopTimer = window.setTimeout(() => {
         this.animFrameId = requestAnimationFrame(tick);
-      }, frameIntervalMs);
+      }, nextDelay);
     };
 
     tick();

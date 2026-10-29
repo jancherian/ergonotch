@@ -53,7 +53,7 @@ export class Spring {
   omega: number;
   zeta: number;
 
-  constructor(value: number, response = 0.5, damping = 0.72) {
+  constructor(value: number, response = 0.32, damping = 0.78) {
     this.value = value;
     this.target = value;
     this.omega = (2 * Math.PI) / response;
@@ -117,15 +117,15 @@ export class Tracked {
     this.mode = "idle";
   }
 
-  /** Spring to `v` (open / grow). */
-  springTo(v: number, response = 0.5, damping = 0.72) {
+  /** Spring to `v` (open / grow) — responsive 320ms spring. */
+  springTo(v: number, response = 0.32, damping = 0.78) {
     this.spring.configure(response, damping);
     this.spring.target = v;
     this.mode = "spring";
   }
 
-  /** Timed curve to `v` (close / shrink), no overshoot. */
-  curveTowards(v: number, durationMs = 340, now = performance.now()) {
+  /** Timed curve to `v` (close / shrink), no overshoot — 280ms snappy close. */
+  curveTowards(v: number, durationMs = 280, now = performance.now()) {
     this.curveFrom = this.spring.value;
     this.curveTo = v;
     this.curveStart = now;

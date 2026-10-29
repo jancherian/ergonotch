@@ -78,6 +78,7 @@ body {
   border-radius: 0 0 14px 14px;
   overflow: visible;
   will-change: width, height, transform;
+  transform: translateZ(0);
 }
 
 #island-clip {
@@ -85,6 +86,8 @@ body {
   inset: 0;
   overflow: hidden;
   border-radius: inherit;
+  will-change: transform;
+  transform: translateZ(0);
 }
 
 #bot-canvas,
@@ -346,16 +349,36 @@ body {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: translateY(3px);
+  transform: translateY(4px);
   pointer-events: none;
-  transition: opacity 0.12s ease-out, transform 0.12s ease-out;
+  transition: opacity 0.14s ease-out, transform 0.14s ease-out;
+  will-change: transform, opacity;
 }
 
 .view.on {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
-  transition: opacity 0.18s ease-out, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.22s ease-out, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body.no-animations *,
+body.no-animations *::before,
+body.no-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }
 
 /* A view that is not on is only transparent, not gone: an infinite animation
