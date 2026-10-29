@@ -695,7 +695,7 @@ fn create_settings_window(app: &AppHandle) {
     let url = settings_page_url(app);
     match WebviewWindowBuilder::new(app, HUB_LABEL, url)
         .additional_browser_args(BROWSER_ARGS)
-        .title("Coucou")
+        .title("Notch")
         .inner_size(1100.0, 720.0)
         .min_inner_size(820.0, 560.0)
         .resizable(true)
@@ -720,11 +720,11 @@ fn create_settings_window(app: &AppHandle) {
                 _ => {}
             });
         }
-        Err(err) => log::line(format!("Coucou window failed: {err}")),
+        Err(err) => log::line(format!("Notch settings window failed: {err}")),
     }
 }
 
-/// Whether the Coucou window is on screen (shown and not minimised). Its page
+/// Whether the Notch window is on screen (shown and not minimised). Its page
 /// animates its canvases only then (hub/hero.ts): WebKitGTK can keep
 /// `document.visibilityState` at "visible" for a hidden window, and its
 /// animation loop then kept a core busy with the window closed (#792).
@@ -746,11 +746,11 @@ pub fn show_settings_window(app: &AppHandle) {
     show_hub(app, Some("general"));
 }
 
-/// Shows the Coucou window, on `page` when given ("dictation", "notes",
+/// Shows the Notch window, on `page` when given ("dictation", "notes",
 /// "settings", "general", "shortcuts"…).
 pub fn show_hub(app: &AppHandle, page: Option<&str>) {
     let Some(win) = app.get_webview_window(HUB_LABEL) else {
-        log::line("Coucou window missing");
+        log::line("Notch settings window missing");
         return;
     };
     if let Some(page) = page {
@@ -776,25 +776,19 @@ fn open_settings_window(app: AppHandle, page: Option<String>) {
 }
 
 pub fn run() {
+    std::panic::set_hook(Box::new(|info| {
+        log::line(format!("PANIC: {}", info));
+    }));
+    log::line(format!("--- Notch {} starting ---", env!("CARGO_PKG_VERSION")));
     platform::prepare_environment();
+    log::line("Environment prepared");
     let loaded = settings::load();
+    log::line("Settings loaded");
     i18n::set_picked(&loaded.language);
     let gate = Arc::new(PollGate::new());
+    log::line("Building Tauri app");
 
     let mut builder = tauri::Builder::default()
-        .plugin(tauri_plugin_single_instance::init(|app, argv, _cwd| {
-            // `notch --shortcut <action>`: what a desktop's own keyboard
-            // settings run where we can't listen for keys ourselves (Wayland).
-            match shortcuts::from_args(&argv) {
-                Some(action) => shortcuts::dispatch(app, action),
-                // Opening Notch again brings the top notch / island into focus
-                None => {
-                    if let Some(win) = island::window(app) {
-                        let _ = win.emit("tray", "open");
-                    }
-                }
-            }
-        }))
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, Some(vec![AUTOSTART_ARG])));
     // Where no global shortcut can work, the plugin isn't even started.
     if platform::global_shortcuts_blocked().is_none() {
@@ -973,9 +967,14 @@ pub fn run() {
             update::update_open_page,
         ])
         .setup(move |app| {
+            log::line("Entering setup hook");
             let handle = app.handle().clone();
             app.manage(phone_link::PhoneLink::new(handle.clone()));
-            tray::build(&handle)?;
+            if let Err(e) = tray::build(&handle) {
+                log::line(format!("Tray build error: {e}"));
+            } else {
+                log::line("Tray built successfully");
+            }
             // Before the island: see create_settings_window.
             create_settings_window(&handle);
             // Same rule for Mochi's desktop window and the dictation pill.
@@ -996,6 +995,13 @@ pub fn run() {
                 webview_drop::install(&handle);
                 island::apply_geometry(&handle, &loaded.screen, false);
                 let _ = win.show();
+                if let Ok(pos) = win.outer_position() {
+                    if let Ok(size) = win.outer_size() {
+                        log::line(format!("Notch island window created at ({}, {}) size {}x{}", pos.x, pos.y, size.width, size.height));
+                    }
+                }
+            } else {
+                log::line("WARNING: Notch island window not found");
             }
             gate.collapsed.store(false, Ordering::Relaxed);
             // Nothing drawn yet, so nothing takes the mouse until the page
@@ -1006,7 +1012,7 @@ pub fn run() {
             gate.set_active(true);
             island::spawn_cursor_poll(handle.clone(), gate.clone());
 
-            log::line(format!("--- Notch {} started ---", env!("CARGO_PKG_VERSION")));
+            log::line(format!("--- Notch {} started successfully ---", env!("CARGO_PKG_VERSION")));
             // Network-dependent services disabled: Claude Code hooks, Android phone link, cloud integrations, WhatsApp, update checks
             shortcuts::apply(&handle, &loaded.shortcuts);
             if loaded.autostart {
@@ -1016,8 +1022,17 @@ pub fn run() {
             Ok(())
         })
         .build(tauri::generate_context!())
-        .expect("error while building Coucou")
+        .unwrap_or_else(|err| {
+            log::line(format!("FATAL: error while building Notch: {err}"));
+            std::process::exit(1);
+        })
         .run(|app, event| {
+            match &event {
+                tauri::RunEvent::Exit => log::line("RunEvent: Exit"),
+                tauri::RunEvent::ExitRequested { code, .. } => log::line(format!("RunEvent: ExitRequested with code {:?}", code)),
+                tauri::RunEvent::Ready => log::line("RunEvent: Ready"),
+                _ => {}
+            }
             // Withdraw the phone link's announcement on the local network before the process ends.
             if let tauri::RunEvent::Exit = event {
                 phone_link::stop_on_exit(app);
