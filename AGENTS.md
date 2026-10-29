@@ -5,3 +5,4 @@
 - Run the build and check console + network after every change.
 - Only edit files inside the scope you were given. Commit a git checkpoint before large changes.
 - Never add network calls or telemetry.
+

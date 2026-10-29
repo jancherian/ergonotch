@@ -165,3 +165,4 @@ npx tauri dev
 - **Coucou:** Desktop notch shell, window mechanics, and Mochi mascot based on [Coucou](https://github.com/Louis-CFM/coucou) by Louis Raille (MIT License).
 - **Google MediaPipe:** Computer vision models and WebAssembly runtime (Apache 2.0).
 - **Tauri Framework:** Safe, lightweight native desktop runtime (MIT / Apache 2.0).
+

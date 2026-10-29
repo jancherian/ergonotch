@@ -137,13 +137,10 @@ class FatigueEngineImpl {
 
     this.initializingLandmarker = (async () => {
       try {
-        const basePath = window.location.pathname.endsWith("/")
-          ? window.location.pathname
-          : window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
-        const wasmBase = `${window.location.origin}${basePath}wasm`;
+        const wasmBase = new URL("wasm/", document.baseURI).href;
         const vision = await FilesetResolver.forVisionTasks(wasmBase);
 
-        const modelPath = `${window.location.origin}${basePath}models/face_landmarker.task`;
+        const modelPath = new URL("models/face_landmarker.task", document.baseURI).href;
 
         let lm: FaceLandmarker;
         try {

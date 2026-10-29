@@ -71,7 +71,8 @@ class SoundEngine {
           }
         }
         try {
-          const res = await fetch(`/sounds/${name}.wav`);
+          const soundUrl = new URL(`sounds/${name}.wav`, document.baseURI).href;
+          const res = await fetch(soundUrl);
           if (!res.ok) return;
           const buf = await ctx.decodeAudioData(await res.arrayBuffer());
           this.buffers.set(name, buf);

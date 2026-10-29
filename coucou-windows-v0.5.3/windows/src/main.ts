@@ -165,8 +165,30 @@ async function main() {
       if (State.mode === "expanded") {
         island.collapse();
       } else {
-        island.reveal();
+        island.fsm.forceHome();
+        island.setPinned(true);
       }
+    });
+
+    // Ensure direct DOM hover on island & wake-strip in browser mode
+    const islandEl = document.getElementById("island");
+    const wakeStripEl = document.getElementById("wake-strip");
+    wakeStripEl?.addEventListener("mouseenter", () => {
+      island.fsm.mouseEntered();
+    });
+    islandEl?.addEventListener("mouseenter", () => {
+      island.fsm.mouseEntered();
+    });
+    islandEl?.addEventListener("click", () => {
+      if (State.mode !== "expanded") {
+        island.fsm.forceHome();
+        island.setPinned(true);
+      }
+    });
+    islandEl?.addEventListener("mouseleave", (e) => {
+      const rect = islandEl.getBoundingClientRect();
+      if (e.clientY < rect.bottom && e.clientX >= rect.left && e.clientX <= rect.right) return;
+      island.fsm.mouseLeft();
     });
 
     // Helper hint at the top

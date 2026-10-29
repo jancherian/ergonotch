@@ -199,13 +199,10 @@ class PostureEngineImpl {
 
     this.initializingLandmarker = (async () => {
       try {
-        const basePath = window.location.pathname.endsWith("/")
-          ? window.location.pathname
-          : window.location.pathname.substring(0, window.location.pathname.lastIndexOf("/") + 1);
-        const wasmBase = `${window.location.origin}${basePath}wasm`;
+        const wasmBase = new URL("wasm/", document.baseURI).href;
         const vision = await FilesetResolver.forVisionTasks(wasmBase);
 
-        const modelPath = `${window.location.origin}${basePath}models/pose_landmarker_lite.task`;
+        const modelPath = new URL("models/pose_landmarker_lite.task", document.baseURI).href;
 
         // Try GPU first, fall back to CPU seamlessly
         let lm: PoseLandmarker;
