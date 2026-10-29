@@ -151,10 +151,11 @@ async function main() {
     banner.innerHTML = `
       <span class="banner-badge">Web Preview</span>
       <span class="banner-text">Web preview. Install the desktop app for system-wide notch, tray, and launch at sign-in.</span>
-      <a href="https://github.com/Louis-CFM/coucou/releases" target="_blank" rel="noopener noreferrer" class="banner-btn">
+      <a href="https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe" class="banner-btn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Download for Windows
       </a>
+      <a href="./about.html" class="banner-secondary-btn">About &amp; Architecture</a>
       <button type="button" class="banner-secondary-btn" id="toggle-notch-btn">Toggle Notch</button>
     `;
     document.body.appendChild(banner);

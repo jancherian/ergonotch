@@ -1,122 +1,122 @@
-# Notch Companion
+# Notch Companion 🌿
 
-> **An ambient desktop companion for focus, ergonomics, and daily wellbeing.**  
+> **An ambient Windows desktop companion for deep focus, physical ergonomics, and daily wellbeing.**  
 > Lives quietly at the top of your screen as a translucent dark island. 100% offline, zero telemetry, local-first.
 
-[![Live Web Preview](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://jancherian.github.io/ergonotch/)
-[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases)
+[![Live Web Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://jancherian.github.io/ergonotch/)
+[![Landing Page](https://img.shields.io/badge/Product-Landing%20Page-9333ea?style=for-the-badge&logo=googlechrome)](https://jancherian.github.io/ergonotch/about.html)
+[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](https://github.com/jancherian/ergonotch/blob/main/LICENSE)
 
 ---
 
-## 🌐 Quick Access (Evaluators & Judges)
+## 🌐 Quick Access for Evaluators & Judges
 
-- **🚀 Public Live Web Demo (One-Click, No Install):**  
-  👉 **[https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/)**  
-  *Runs the complete interactive companion directly in your browser. Camera posture analysis and eye fatigue detection run in-browser using WebAssembly and local models from the same origin (no CDN, zero external calls).*
-- **📦 Windows Desktop Installer (.exe):**  
-  👉 **[Download Notch-Setup.exe (v1.0.0)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe)** (25.8 MB, NSIS `currentUser` installer, no admin required).  
-  *Release Page: [GitHub Releases v1.0.0](https://github.com/jancherian/ergonotch/releases/tag/v1.0.0)*
-- **🛡️ Windows SmartScreen Note:**  
-  *The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** and then **"Run anyway"**.*
+| Destination | Link | Description |
+| :--- | :--- | :--- |
+| **🚀 Public Live Web Demo** | [jancherian.github.io/ergonotch](https://jancherian.github.io/ergonotch/) | One-click interactive in-browser demo. Runs local MediaPipe WASM posture analysis via `getUserMedia` with zero install. |
+| **📖 Product Landing Page** | [jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | Single-page product overview, architecture breakdown, module guide, and privacy philosophy. |
+| **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.0)](https://github.com/jancherian/ergonotch/releases/download/v1.0.0/Notch-Setup.exe) | 25.8 MB NSIS single-user installer. No administrator rights required. |
+| **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
 
----
-
-## 🌟 Overview
-
-**Notch Companion** is a Windows desktop application that bridges deep work productivity and physical ergonomics. Rather than overwhelming you with notifications or full-screen windows, Notch lives as a discreet, floating dynamic island at the top of your display, expanding on demand and staying in your peripheral vision while working.
-
-All vision and machine-learning models run **100% locally on your computer** using WebAssembly and bundled `.task` models. **Zero bytes of video or personal telemetry ever leave your device.**
+> 🛡️ **Windows SmartScreen Note:** The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** → **"Run anyway"**.
 
 ---
 
-## ✨ Key Features
+## 🛑 The Problem
 
-### 1. ⏱️ Focus Engine
-- Structured work and break sessions (25m / 5m default, configurable).
-- Active task binding: assign your primary task directly to the timer.
-- Real-time collapsed pill tracking (`⏱️ 24:58 · [Active Task]`).
-- Interruption tracking and session completion logging without drift.
-- Mochi companion reacts to work vs break states.
+Modern knowledge workers face a quiet crisis at their desks:
+1. **Ergonomic Blind Spots:** Prolonged computer work naturally pulls us into forward-head posture ("tech neck"), shoulder hunching, and reduced blink rates, leading to chronic eye strain, headaches, and physical fatigue.
+2. **Intrusive Productivity Tools:** Traditional productivity tools demand full-screen attention, break deep-work state with disruptive popups, or log invasive keystrokes and screenshots.
+3. **The Cloud AI Privacy Trap:** Contemporary "smart" companions stream your camera frames, audio, and personal work data to remote cloud servers, creating unacceptable privacy and security risks.
 
-### 2. 📋 Tasks Manager
-- Full task management with priorities (`Low`, `Medium`, `High`), due dates, and times.
-- Clear filtering: `Today`, `Upcoming`, `Overdue`, `All`, and `Done`.
-- Distinct overdue badges that keep missed deadlines visible without anxiety.
-- One-tap "Set Active 🎯" to push tasks straight to the Focus timer.
+### The Solution: Notch Companion
+Notch Companion bridges deep cognitive focus and physical health by living as an **ambient, non-distracting floating island at the top edge of your screen**. It runs all machine vision and posture rules **100% on your local hardware** using WebAssembly, ensuring that **zero bytes of video or telemetry ever leave your device**.
 
-### 3. 🔥 Daily Habits & Streaks
-- Track daily and weekday micro-habits (stretch, hydrate, read, walk).
-- Visual 7-day completion tracker (`M T W T F S S`).
-- **Authentic streaks:** Missed days are **never auto-completed** and stay visible as missed.
-- One-tap completion with audio feedback.
-- Pause, resume, and archive habits at any time.
+---
 
-### 4. 🧍 100% Offline Posture Analysis
-- Real-time pose landmarking powered by local `@mediapipe/tasks-vision` (running completely offline via bundled WASM and `pose_landmarker_lite.task`).
-- Detects slouch ratio, forward head posture, and shoulder tilt angle relative to your calibrated baseline.
-- **Privacy-first:** Video stream is processed in-memory and frames are discarded immediately. Camera turns off instantly when paused or stopped.
-- Persistent hold threshold (20s hold required before warning; 5s in Demo Mode).
-- One-tap baseline calibration: *"Sit straight, then press Calibrate"*.
+## 🏛️ System Architecture
 
-### 5. 👁️ Facial Fatigue & PERCLOS Monitoring
-- Real-time Face Landmarker with eye-blendshapes (`eyeBlinkLeft`/`eyeBlinkRight`).
-- Rolling 60-second PERCLOS (% time eye closed) and prolonged blink closure tracking (>1.5s).
-- Non-diagnostic soft suggestions (*"☕ You might be getting tired. Consider a short break"*).
-- Independent toggle: can run posture tracking with or without facial analysis.
+```
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│                                   NOTCH COMPANION                                     │
+├───────────────────────────┬─────────────────────────────┬─────────────────────────────┤
+│      DESKTOP RUNTIME      │        OFFLINE VISION       │      WELLBEING ENGINES      │
+│  (Tauri 2 + Rust + Win32) │    (@mediapipe/tasks-vision)│ (TypeScript Sliding Windows)│
+├───────────────────────────┼─────────────────────────────┼─────────────────────────────┤
+│ • Frameless transparent   │ • Pose Landmarker Lite WASM │ • 25m Focus / 5m Break FSM  │
+│   top-center notch pill   │ • Face Landmarker WASM      │ • Active task pill binding  │
+│ • Hover peek & expansion  │ • Bundled in /public/wasm/  │ • Forward-head / slouch calc│
+│ • System tray & autostart │ • Zero external CDN calls   │ • Rolling 60s PERCLOS ratio │
+│ • 0 open network sockets  │ • Volatile in-memory frames │ • 4 Guided micro-resets     │
+└─────────────┬─────────────┴──────────────┬──────────────┴──────────────┬──────────────┘
+              │                            │                             │
+              ▼                            ▼                             ▼
+┌───────────────────────────────────────────────────────────────────────────────────────┐
+│                           CROSS-PLATFORM ADAPTER LAYER                                │
+│                                   (platform.ts)                                       │
+├───────────────────────────────────────────┬───────────────────────────────────────────┤
+│          DESKTOP (IS_TAURI = true)        │         BROWSER (IS_TAURI = false)        │
+├───────────────────────────────────────────┼───────────────────────────────────────────┤
+│ • Win32 frameless window bounds           │ • Mock-desktop wallpaper canvas           │
+│ • Tauri Single-Instance guard             │ • In-page simulated notch pill            │
+│ • Win32 native cursor polling             │ • Web Notification API + LocalStorage     │
+│ • Native sound synthesis & autostart      │ • WebAudio pop/chime synthesis            │
+└───────────────────────────────────────────┴───────────────────────────────────────────┘
+```
 
-### 6. 🧘 Guided Wellbeing Micro-Breaks
-- 4 targeted guided micro-breaks:
-  - 👁️ **20-20-20 Eye Rest** (20s)
-  - 🧘 **Desk Stretch** (60s)
-  - 🧍 **Spine & Posture Reset** (30s)
-  - 💧 **Hydration Check** (30s)
-- Focus deferral: suppresses non-critical reminders during active focus sessions until break time.
-- Snooze (5m), dismiss, and completion logging.
+---
 
-### 7. 📊 Insights & Daily Summary
-- Measured activity tiles vs estimates: Focus time, Tasks completed, Habits consistency, Breaks taken.
-- Interactive 7-day focus bar chart with hover tooltips and live today indicator.
-- Screen & App activity breakdown (sample data reference).
-- Prominently anchored philosophy: *"Descriptive insights, not a measure of productivity."*
+## ✨ Key Features & The Three Modules
 
-### 8. ⚙️ Settings, Privacy & Presentation Demo Mode
-- Toggles: Launch at sign-in, camera analysis, facial analysis, usage tracking, UI animations, notification frequency, hover sensitivity, collapse delay.
-- **Presentation Demo Mode:** Shortens alert thresholds to 5 seconds for rapid live demonstration.
-- **Hidden Demo Reset (<kbd>Ctrl+Shift+R</kbd>):** Instantly restores a clean, fresh demonstration state with realistic seed data.
-- **Delete All My Data:** Complete local storage purge with safety confirmation.
+### Module 1: ⏱️ Deep Focus Engine & Tasks
+- **Structured Work/Break Cycles:** 25-minute focus intervals with 5-minute restorative breaks (configurable).
+- **Active Task Binding:** Attach your priority task to the timer; remaining time and title stay visible in the collapsed notch pill (`⏱️ 24:58 · Finish Presentation`).
+- **Drift-Free Persistence:** State is timestamped and persisted so reboots never corrupt or double-count focus minutes.
+- **Tasks Manager:** Create, prioritize (`Low`, `Medium`, `High`), filter (`Today`, `Upcoming`, `Overdue`), and complete tasks with one-tap activation.
+- **Mochi Mascot Reactions:** Mochi smiles during focus sessions and reminds you when it's time to stretch.
+
+### Module 2: 🧍 100% Offline Posture & Fatigue AI
+- **Local Pose Landmarker (Lite):** Evaluates posture at ~5 FPS using bundled MediaPipe WebAssembly.
+- **Biomechanical Metrics:**
+  - **Slouch Ratio:** Vertical displacement of nose-to-shoulder midpoint relative to your baseline.
+  - **Forward Head:** Horizontal offset of ear relative to shoulder, normalized by shoulder span.
+  - **Shoulder Tilt:** Angle between shoulder landmarks.
+- **One-Tap Calibration:** *"Sit straight, then press Calibrate"* sets your personalized ergonomic baseline.
+- **Facial Fatigue & PERCLOS:** Tracks rolling blink closure ratio and prolonged closures (>1.5s). Outputs gentle suggestions (*"☕ You might be getting tired. Consider a short break"*). Never fabricates medical diagnoses.
+- **Visible Privacy Indicator & Kill Switch:** Prominent pink dot glows when the camera is active. An instant **Pause/Disable** button immediately terminates the video track and shuts off the hardware camera LED.
+
+### Module 3: 🌱 Habits & Guided Wellbeing Resets
+- **Honest Streaks:** Missed days are **never auto-completed** and stay visible as missed. Includes a weekly 7-day dot completion matrix (`M T W T F S S`).
+- **4 Guided Micro-Breaks:**
+  - 👁️ **20-20-20 Eye Rest** (20s distant focal reset)
+  - 🧘 **Desk Stretch** (60s neck, shoulder & chest opening)
+  - 🧍 **Spine & Posture Reset** (30s spinal alignment)
+  - 💧 **Hydration Check** (30s water refill)
+- **Focus Deferral:** Holds non-critical break prompts during active focus sessions until the interval ends.
+- **Insights & Daily Summary:** 4 provenance-tagged tiles (`Measured` vs `Estimated`), 7-day focus bar chart, and screen-time estimates labeled *"Sample data · Estimates only"*. Prominently displays: *"Descriptive insights, not a measure of productivity."*
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology | Rationale |
+| :--- | :--- | :--- |
+| **Desktop Shell** | [Tauri 2](https://tauri.app/) (Rust) | Lightweight (~25 MB total footprint), native Windows integration, negligible RAM usage. |
+| **Frontend UI** | TypeScript, Modern CSS | Fast, frameless, hardware-accelerated animations with zero bundle bloat. |
+| **Computer Vision** | `@mediapipe/tasks-vision` (WASM) | High-accuracy pose and face landmarkers running 100% locally on CPU/GPU via WebAssembly. |
+| **Platform Adapter** | `platform.ts` | Dual-mode execution: native desktop via Tauri bridge, or interactive web preview via standard Web APIs. |
+| **Local Storage** | `localStorage` / JSON Store | 100% local-first data storage with zero cloud sync. |
+| **Installer** | NSIS (`currentUser`) | One-click single-user Windows installer. No administrator privileges required. |
 
 ---
 
 ## 🔒 Privacy & Security Guarantee
 
-- **Zero Network Traffic:** Zero external telemetry sockets, analytics, or remote API calls. Works completely offline without an internet connection.
-- **Local WASM Inference:** MediaPipe vision inference runs on your CPU/GPU via WebAssembly in the WebView sandbox.
-- **Zero Video Saved:** Camera frames are evaluated frame-by-frame in volatile memory and immediately freed. No screenshots, images, or video clips are ever saved to disk or transmitted.
-- **Zero Keystrokes or Screen Capture:** Notch Companion never monitors, reads, or records your keystrokes, clipboard, or screen contents.
-
----
-
-## 🚀 Running & Building
-
-### Prerequisites
-- Node.js (v18+)
-- Rust & Cargo (1.75+)
-- WebView2 Runtime (pre-installed on Windows 10/11)
-
-### Development
-```powershell
-cd coucou-windows-v0.5.3/windows
-npm install
-npm run dev
-```
-
-### Build Production Installer
-```powershell
-cd coucou-windows-v0.5.3/windows
-npm run build
-npx tauri build
-```
-The installer is generated in `src-tauri/target/release/bundle/nsis/Notch_0.1.0_x64-setup.exe`.
+1. **Zero Network Calls:** Notch makes zero external requests. Tested and verified with **0 open TCP sockets** owned by the process.
+2. **Zero Video Saved:** Camera frames are processed frame-by-frame in volatile GPU/CPU memory and immediately freed. No images, video recordings, or screenshots are ever written to disk or sent over a network.
+3. **No Keystrokes or Screen Capture:** Notch never hooks keystrokes, clipboard buffers, or application contents.
+4. **Offline Resilience:** Turn off your Wi-Fi, disconnect your Ethernet, and launch the app: timers, posture detection, habits, and tasks all continue working flawlessly.
 
 ---
 
@@ -124,8 +124,8 @@ The installer is generated in `src-tauri/target/release/bundle/nsis/Notch_0.1.0_
 
 | Shortcut | Action |
 | :--- | :--- |
-| <kbd>Ctrl+Shift+R</kbd> | **Hidden Demo Reset** (Restores clean presentation state) |
-| <kbd>Ctrl+P</kbd> | **Pin / Unpin** Island |
+| <kbd>Ctrl+Shift+R</kbd> | **Hidden Demo Reset** (Restores clean presentation seed data) |
+| <kbd>Ctrl+P</kbd> | **Pin / Unpin** Island (Keep panel open) |
 | <kbd>1</kbd> | Jump to **Focus** view |
 | <kbd>2</kbd> | Jump to **Tasks** view |
 | <kbd>3</kbd> | Jump to **Habits** view |
@@ -137,9 +137,74 @@ The installer is generated in `src-tauri/target/release/bundle/nsis/Notch_0.1.0_
 
 ---
 
-## 📚 Credits & Licenses
+## 🚀 Running Locally
 
-- **Coucou Core:** Based on the Coucou project by Louis Raille (MIT License).
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- [Rust toolchain](https://rustup.rs/) (1.75+)
+- WebView2 Runtime (installed by default on Windows 10/11)
+
+### Development (Desktop App)
+```powershell
+cd coucou-windows-v0.5.3/windows
+npm install
+$env:PATH = "$env:USERPROFILE\.cargo\bin;$env:PATH"
+npx tauri dev
+```
+
+### Local Web Preview Server
+```powershell
+cd coucou-windows-v0.5.3/windows
+npm run build
+npm run preview
+# Open http://localhost:4173 in any browser
+```
+
+### Build Production Installer (.exe)
+```powershell
+cd coucou-windows-v0.5.3/windows
+npm run build
+$env:PATH = "$env:USERPROFILE\.cargo\bin;$env:PATH"
+npx tauri build
+# Output located at: src-tauri/target/release/bundle/nsis/Notch_0.1.0_x64-setup.exe
+```
+
+---
+
+## 🎥 2-Minute Backup Demo Video & Presentation Script
+
+In the event of hardware or Wi-Fi disruptions during judging, the full presentation walkthrough is documented in [**`DEMO_SCRIPT.md`**](file:///c:/Users/Jan%20Cherian%20Thomas/ergonotch/DEMO_SCRIPT.md).
+
+### The 7-Step Hackathon Walkthrough Flow:
+1. **The Ambient Notch (0:00 - 0:20):** Show the dark pill at the top of the screen. Hover cursor over the top edge to expand the 6-tab panel smoothly.
+2. **Deep Focus Session (0:20 - 0:40):** Bind a task and start a 25-minute focus session. Collapse the notch to show the live timer pill (`⏱️ 24:58`).
+3. **Offline Posture AI (0:40 - 1:10):** Enable camera analysis. Show the glowing pink privacy indicator. Sit straight and click **"Calibrate"**. Slouch forward to demonstrate the instant posture check and Mochi's worried reaction. Straighten up to show immediate recovery.
+4. **Honest Habits & Insights (1:10 - 1:30):** Check off a daily habit to demonstrate honest streaks. Open the Insights tab to show measured data provenance vs estimated indicators.
+5. **The Ultimate Offline Test (1:30 - 1:50):** **Turn off Wi-Fi live on stage.** Show that the focus timer, MediaPipe vision, and habit engine continue running without any hiccups.
+6. **Privacy Kill Switch (1:50 - 2:00):** Click the camera **Pause/Disable** button. Show the indicator turning off and the webcam hardware LED extinguishing immediately.
+
+---
+
+## 🗺️ Deliberate Non-Goals & Roadmap
+
+To maintain exceptional polish, rock-solid stability, and zero crashes, the following features were intentionally excluded from this release:
+- **Cloud Sync & User Accounts:** Notch is unapologetically local-first. We do not require accounts, logins, or cloud databases.
+- **Generative AI Chatbots:** We avoid hallucinating LLM chat interfaces in favor of fast, deterministic ergonomic rules.
+- **Complex Calendar Integrations:** No OAuth or third-party web dependencies.
+
+### Future Roadmap:
+- Multi-monitor notch positioning selector.
+- Custom ambient audio soundscapes (binaural focus waves, rain, white noise).
+- CSV / JSON export for personal health analytics.
+
+---
+
+## 📚 Credits & MIT License
+
+- **Coucou:** The desktop notch shell, window animation mechanics, and Mochi companion character are based on [Coucou](https://github.com/Louis-CFM/coucou) by Louis Raille (MIT License).
 - **Google MediaPipe:** Vision models and WebAssembly runtime (Apache 2.0).
-- **Mochi Mascot:** Hand-crafted animations and SVG art from Coucou (MIT).
-- **Tauri Framework:** Safe, lightweight native desktop runtime (MIT / Apache 2.0).
+- **Tauri:** Safe, lightweight native desktop framework (MIT / Apache 2.0).
+
+---
+
+*Notch Companion is free and open-source software released under the [MIT License](https://github.com/jancherian/ergonotch/blob/main/LICENSE).*
