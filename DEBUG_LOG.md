@@ -263,6 +263,49 @@ Automated test suite `scripts/verify_desktop_judge_proof.mjs` executed over Chro
 - **Residual Coucou Folder Cleaning:**
   - `nsis/hooks.nsh`: Remove `$LOCALAPPDATA\Coucou` directory completely on uninstall/upgrade.
 
+---
+
+## PART 14: Post-Removal Verification Results (Part 4)
+
+1. **Visual Proof & Window Proof (Win32 Enumeration):**
+   - Win32 `EnumWindows` scan of all visible top-level windows owned by `notch.exe` (PID 28956):
+     - `Mochi` (133x120 at 51,51) - Visible
+     - `Notch` Island (720x380 at 408,0) - Visible
+     - `Notch` Settings (1114x758 at 210,33) - Hidden until opened
+   - **Call Pill (`520x170` at `128,128`):** 100% GONE from window table and screen.
+
+2. **Automated Verification Suites Proof:**
+   - **Production Desktop Judge Proof (`scripts/verify_desktop_judge_proof.mjs`):**
+     - **10/10 Tests PASSED (0 failures)** on `Notch-Windows-1.0.3-setup.exe`.
+     - Silent install: PASS (77.62 MB installed binary).
+     - Clean profile boot: PASS (`BOOT_READY 4199ms`).
+     - Hover expand/collapse & 60 FPS: PASS (144.1 FPS measured inside WebView2).
+     - 6 Tabs Content: PASS (Focus, Tasks, Habits, Wellbeing, Insights, Settings all populated).
+     - Local camera posture active and pause: PASS.
+     - Outbound sockets check: PASS (`0_SOCKETS`).
+     - Single-instance mutex: PASS (secondary exits with code 0).
+     - Relaunch after kill: PASS.
+     - Corrupt settings recovery: PASS.
+     - Silent uninstall: PASS.
+   - **Responsive Web Viewports Suite (`scripts/verify_web_viewports_after.mjs`):**
+     - **90/90 Tests PASSED (0 failures)** across 15 viewport and scale combinations.
+   - **Web E2E Verification Suite (`scripts/verify_e2e_web.mjs`):**
+     - **10/10 Tests PASSED (0 failures)**.
+
+3. **Upgrade Proof (`scripts/verify_upgrade_proof.mjs`):**
+   - Installed known-good `v1.0.2` baseline from backup folder.
+   - Wrote user test data (`upgrade-test-task-1` and `upgrade-test-habit-1`).
+   - Installed `v1.0.3` production setup directly over existing install without wiping data.
+   - Launched `v1.0.3` over CDP: confirmed `{"hasTask": true, "hasHabit": true}`.
+   - Result: **PASS** (Zero data loss).
+
+4. **Cleanliness Proof:**
+   - Verified `%LOCALAPPDATA%\Coucou`: **Does not exist (False)**.
+   - Verified `%APPDATA%\Coucou`: **Does not exist (False)**.
+   - Verified `Program Files\Coucou`: **Does not exist (False)**.
+   - Result: **PASS** (100% clean filesystem).
+
+
 
 
 

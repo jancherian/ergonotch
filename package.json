@@ -1,6 +1,6 @@
 {
   "name": "ergonotch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "> **An ambient Windows desktop companion for deep focus, physical ergonomics, and daily wellbeing.**   > Lives quietly at the top of your screen as a translucent dark island. 100% offline, zero telemetry, local-first.",
   "main": "index.js",
   "scripts": {
