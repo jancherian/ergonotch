@@ -63,3 +63,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Honest habits tracker with authentic streaks and 7-day dot completion matrix.
 - 4 guided micro-breaks (20-20-20 eye rest, desk stretch, posture reset, hydration).
 - Presentation Demo Mode with 5-second alert threshold and hidden Demo Reset (<kbd>Ctrl+Shift+R</kbd>).
+

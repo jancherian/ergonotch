@@ -112,3 +112,4 @@ Executed `scripts/verify_e2e_web.mjs` against `https://jancherian.github.io/ergo
   *Result:* `0` open TCP connections.
 * **Local MediaPipe WASM:** Pose & Face Landmarker `.task` models and WASM runtimes execute strictly in the client sandbox with zero external CDN requests.
 * **Hardware Camera LED Kill Switch:** Clicking Pause/Disable immediately stops `MediaStreamTrack`, terminating camera hardware access instantly.
+

@@ -137,3 +137,4 @@ server.listen(4175, async () => {
   console.log(`\nDiagnostics finished! Found ${defects.length} defects.`);
   console.log(JSON.stringify(defects, null, 2));
 });
+
