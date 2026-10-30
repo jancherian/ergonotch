@@ -426,8 +426,8 @@ export class Island {
   expand(view: IslandViewName) {
     this.stopSequenceIfLeaving(view);
     if (view !== "overview") closePlanCard();
-    // Prevent expanding into greeting after boot/greeting is finished
-    const target = view === "greeting" && this.fsm.state !== "coucou" ? State.defaultView() : view;
+    const validTabs: IslandViewName[] = ["focus", "tasks", "habits", "wellbeing", "insights", "settings"];
+    const target = validTabs.includes(view) ? view : "focus";
     State.view = target;
     this.fsm.cancelTimers();
     if (this.fsm.state !== "home") {
@@ -488,7 +488,11 @@ export class Island {
    * permission or question always comes first.
    */
   private openingView(): IslandViewName {
-    return this.updateHintOn() ? "update" : State.defaultView();
+    const validTabs: IslandViewName[] = ["focus", "tasks", "habits", "wellbeing", "insights", "settings"];
+    if (State.view && validTabs.includes(State.view)) {
+      return State.view;
+    }
+    return "focus";
   }
 
   reveal() {

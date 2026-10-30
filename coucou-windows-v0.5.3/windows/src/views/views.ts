@@ -357,6 +357,10 @@ function buildOverview(actions: ViewActions): ViewHost {
       State.notify();
     },
     sync() {
+      if (State.view === "overview") {
+        actions.setView("focus");
+        return;
+      }
       const task = State.focusTask;
       if (task?.id !== lastFocus) {
         lastFocus = task?.id ?? null;
@@ -546,19 +550,7 @@ function lighten(hex: string, amount: number): string {
 // ── Empty ─────────────────────────────────────────────────────────────────────
 
 function buildEmpty(actions: ViewActions): ViewHost {
-  const body = h(
-    "div",
-    { class: "stack", style: "padding:0 18px 0 118px;flex-direction:row;align-items:center;gap:16px" },
-    h(
-      "div",
-      { style: "display:flex;flex-direction:column;gap:5px" },
-      h("div", { class: "title", text: tl("Notch Companion") }),
-      h("div", { class: "sub", text: tl("Welcome to Notch. Hover to explore your companion.") }),
-    ),
-    h("div", { class: "grow" }),
-    btn(tl("Settings"), "primary", () => actions.setView("settings")),
-  );
-  return { el: h("div", { class: "view" }, card(null, body)), sync() { } };
+  return buildFocus(actions);
 }
 
 // ── Approval ──────────────────────────────────────────────────────────────────
