@@ -188,5 +188,81 @@ Automated test suite `scripts/verify_desktop_judge_proof.mjs` executed over Chro
 
 **Result: 10/10 Judge Tests PASSED.**
 
+---
+
+## PART 12: Pre-Removal Baseline (Part 0)
+
+1. **Safety Tag & Installer Backup:**
+   - Git state clean on branch `main` at commit `658c2cc`.
+   - Local safety tag created: `known-good-v1.0.2`.
+   - Backup installer preserved: `C:\Users\Jan Cherian Thomas\backup\Notch-Setup-v1.0.2-known-good.exe`.
+   - Backup SHA256: `95A3EE2635BBFD60A5859B009D7AE8E5C049D0BF5C3165BAE8A2995BF86F4D58`.
+
+2. **Baseline Measurements:**
+   - **Active Windows Owned by notch.exe (PID 25732):**
+     1. Notch Island (Top notch): `720x380` at `408,0`, Class: `Tauri Window`, Visible: `True`.
+     2. Leftover Call Island (Pill): `520x170` at `128,128`, Class: `Tauri Window`, Visible: `True` (Target for removal).
+     3. Mochi Companion: `133x120` at `77,77`, Class: `Tauri Window`, Visible: `True`.
+     4. Settings Window: `1114x758` at `210,33`, Class: `Tauri Window`, Visible: `False` (until opened).
+   - **Boot Speed (app.log):** `BOOT_READY 4326ms` (watchdog limit 5000ms).
+   - **Network Sockets:** `0_SOCKETS` (verified with `Get-NetTCPConnection`).
+   - **Automated Verification Suites:**
+     - `scripts/verify_desktop_judge_proof.mjs`: 10/10 tests PASSED.
+     - `scripts/verify_web_viewports_after.mjs`: 90/90 tests PASSED.
+     - `scripts/verify_e2e_web.mjs`: 10/10 tests PASSED.
+
+---
+
+## PART 13: Leftover Call Island Analysis & Removal Plan (Parts 1 & 2)
+
+### 1. Root Cause & Owner Identification
+- **Window Label:** `"pill"`
+- **Window HTML Entry:** `coucou-windows-v0.5.3/windows/pill.html`
+- **Window TS/CSS Entry:** `coucou-windows-v0.5.3/windows/src/pill/main.ts` and `pill.css`.
+  - Lines 163-166 of `main.ts` explicitly construct:
+    - Dictate button: `pillButton("mic", t("Dictate · {0}", ...))`
+    - Record button: `pillButton("record", t("Record a call"), () => void FlowBridge.pillAction("note"))`
+    - Hub button: `pillButton("window", t("Open Coucou"), () => void FlowBridge.pillAction("hub"))`
+- **Rust Creation Point:** `coucou-windows-v0.5.3/windows/src-tauri/src/flow/pill.rs` via `flow::setup(&handle)`.
+  - In `flow/pill.rs`: `let park = cfg!(windows); builder.visible(park);` creates and shows the window on launch.
+- **Tauri Configs:**
+  - `src-tauri/capabilities/default.json` lists `"pill"` under `windows`.
+  - `vite.config.ts` lists `pill: resolve(__dirname, "pill.html")`.
+- **Leftover Coucou Folder Source:**
+  - `nsis/hooks.nsh` lines 12-14 attempts to clean `$LOCALAPPDATA\Coucou\bin`, but not parent folder.
+  - Previous builds wrote to `%LOCALAPPDATA%\Coucou`. Data path has already been redirected to `%LOCALAPPDATA%\Notch` and `%APPDATA%\Notch`. Migration logic is verified.
+
+### 2. "SHARED - DO NOT TOUCH" List (Hard Protection Rules)
+- **Posture & Fatigue AI Camera Pipeline:** `src/camera/posture.ts`, `src/camera/fatigue.ts` (uses browser `getUserMedia({ video: true })` inside `index.html` with MediaPipe; does NOT touch `cpal` or `speech/`). Keep `camera` capability.
+- **Sound Effects & Audio Playback:** `src/core/sound.ts`, `sounds/*.wav`, `src-tauri/src/sounds.rs` (playback only via Web Audio API and file streaming; zero microphone recording).
+- **Core Companion UI & Architecture:** `fsm.ts`, `island.ts`, `anim.ts`, `layout.ts`, `style.css`, `index.html`, all 6 tabs (Focus, Tasks, Habits, Wellbeing, Insights, Settings).
+- **Mochi Window:** `src/mochi/`, `src-tauri/src/desktop.rs` (Mochi companion window is preserved).
+- **Settings Window:** `settings.html`, `src/settings/`, `src-tauri/src/lib.rs` (Settings window is preserved).
+- **Single-Instance Mutex & Logging:** `src-tauri/src/main.rs`, `src-tauri/src/log.rs`.
+- **Boot Watchdog & Markers:** `BOOT_READY` in `main.ts` and `index.html`.
+- **Web Demo & Offline Capabilities:** `platform.ts`, 0 outbound network calls.
+- **MIT Attribution:** "Based on Coucou (MIT License)" retained in Settings and documentation.
+
+### 3. "BELONGS ONLY TO CALL ISLAND" List (Removal Targets)
+- **Frontend Assets & Windows:**
+  - `coucou-windows-v0.5.3/windows/pill.html`
+  - `coucou-windows-v0.5.3/windows/src/pill/` (`main.ts`, `pill.css`)
+  - `"pill"` entry in `coucou-windows-v0.5.3/windows/vite.config.ts`
+  - `"pill"` label in `coucou-windows-v0.5.3/windows/src-tauri/capabilities/default.json`
+- **Rust Setup & Handlers:**
+  - `flow::setup(&handle)` and `notes::setup(&handle)` in `coucou-windows-v0.5.3/windows/src-tauri/src/lib.rs`.
+  - `notes::shutdown(app)` in `src-tauri/src/lib.rs`.
+  - `flow::pill_*` Tauri commands (`pill_state`, `pill_hot`, `pill_hover`, `pill_action`).
+  - `notes::*` Tauri commands (`notes_state`, `notes_start`, `notes_stop`, `notes_rename`, `notes_rename_speaker`, `notes_toggle_todo`, `notes_delete`, `notes_summarize`, `notes_retry`, `notes_markdown`, `notes_export`).
+  - `flow::flow_*` dictation commands in `lib.rs`.
+  - `src-tauri/src/flow/pill.rs`
+- **Rust Unused Modules & Dependencies:**
+  - `src-tauri/src/notes/` (Notetaker, diarizer, call recording).
+  - `src-tauri/src/speech/audio.rs` (WASAPI loopback audio capture via `cpal`).
+  - Cargo dependencies: `cpal` (audio input capture), `sherpa-onnx` (speech recognition).
+- **Residual Coucou Folder Cleaning:**
+  - `nsis/hooks.nsh`: Remove `$LOCALAPPDATA\Coucou` directory completely on uninstall/upgrade.
+
+
 
 

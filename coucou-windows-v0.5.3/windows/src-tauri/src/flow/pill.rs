@@ -89,45 +89,8 @@ fn page_url(app: &AppHandle) -> WebviewUrl {
 /// Creates the pill's window, hidden. Before the island, for WebView2's sake
 /// (see create_settings_window in lib.rs).
 pub fn setup(app: &AppHandle) {
-    let mut mode = platform::desktop_mode();
-    if mode == DesktopMode::Off {
-        crate::log::line("flow pill: no way to place it on this desktop");
-    } else {
-        let park = cfg!(windows);
-        let mut builder = WebviewWindowBuilder::new(app, LABEL, page_url(app))
-            .additional_browser_args(crate::BROWSER_ARGS)
-            .title("Notch")
-            .inner_size(BOTTOM.0, BOTTOM.1)
-            .resizable(cfg!(target_os = "linux"))
-            .decorations(false)
-            .transparent(true)
-            .shadow(false)
-            .always_on_top(true)
-            .skip_taskbar(true)
-            .visible_on_all_workspaces(true)
-            .focused(false)
-            .maximizable(false)
-            .minimizable(false)
-            .closable(false)
-            .disable_drag_drop_handler()
-            .focusable(false)
-            .visible(park);
-        if park {
-            builder = builder.position(PARKED.0 as f64, PARKED.1 as f64);
-        }
-        match builder.build() {
-            Ok(win) => {
-                if !platform::prepare_pill_window(&win, mode) {
-                    let _ = win.destroy();
-                    mode = DesktopMode::Off;
-                }
-            }
-            Err(err) => {
-                crate::log::line(format!("flow pill window failed: {err}"));
-                mode = DesktopMode::Off;
-            }
-        }
-    }
+    // Step A: stop the leftover call island window from being created or shown
+    let mode = DesktopMode::Off;
     let pill = Arc::new(Pill {
         mode,
         state: Mutex::new(PillState { phase: "idle".into(), edge: "bottom".into(), ..Default::default() }),
@@ -137,10 +100,7 @@ pub fn setup(app: &AppHandle) {
         poll: (Mutex::new(false), Condvar::new()),
         announce_seq: std::sync::atomic::AtomicU64::new(1),
     });
-    app.manage(pill.clone());
-    if mode == DesktopMode::Poll {
-        spawn_poll(app.clone(), pill);
-    }
+    app.manage(pill);
 }
 
 /// A dictation is under way: the microphone is Flow's.
