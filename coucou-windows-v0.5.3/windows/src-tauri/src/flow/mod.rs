@@ -183,7 +183,7 @@ fn disable(app: &AppHandle, flow: &Arc<Flow>) {
         s.enabled = false;
         s.phase = "idle".into();
     });
-    if !crate::notes::is_recording(app) && !crate::voice::is_listening() {
+    if !crate::voice::is_listening() {
         speech::unload();
     }
 }
@@ -684,8 +684,8 @@ pub fn pill_action(app: AppHandle, flow: State<Arc<Flow>>, action: String, id: O
         }
         "finish" => flow.send(KeyEvent::Finish),
         "cancel" => flow.send(KeyEvent::Cancel),
-        "note" => crate::notes::toggle(&app),
-        "stopNote" => crate::notes::stop(&app),
+        "note" => {},
+        "stopNote" => {},
         "hub" => crate::show_hub(&app, None),
         "announcement" | "dismiss" => {
             let state = pill::get(&app).map(|p| p.state());

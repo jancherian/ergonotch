@@ -77,7 +77,7 @@ pub fn sync(app: &AppHandle) {
                 r.stop.store(true, Ordering::Relaxed);
             }
             let dictation = crate::flow::get(app).is_some_and(|f| f.store.lock().unwrap().prefs.enabled);
-            if !dictation && !crate::notes::is_recording(app) {
+            if !dictation {
                 speech::unload();
             }
             crate::log::line("voice: « OK Coucou » off");
@@ -150,8 +150,8 @@ fn run(app: AppHandle, stop: Arc<AtomicBool>) {
             }
             _ => {}
         }
-        // Dictation and calls have the microphone: Coucou doesn't listen meanwhile.
-        if pill::dictating(&app) || crate::notes::is_recording(&app) {
+        // Dictation has the microphone: Coucou doesn't listen meanwhile.
+        if pill::dictating(&app) {
             vad.reset();
             continue;
         }

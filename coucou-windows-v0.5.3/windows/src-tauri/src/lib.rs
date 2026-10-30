@@ -18,7 +18,6 @@ mod island;
 mod local_chat;
 mod log;
 mod net;
-mod notes;
 mod openai_compat;
 mod phone_link;
 mod pipe;
@@ -938,21 +937,6 @@ pub fn run() {
             flow::flow_paste_again,
             flow::flow_models_download,
             flow::flow_models_remove,
-            flow::pill_state,
-            flow::pill_hot,
-            flow::pill_hover,
-            flow::pill_action,
-            notes::notes_state,
-            notes::notes_start,
-            notes::notes_stop,
-            notes::notes_rename,
-            notes::notes_rename_speaker,
-            notes::notes_toggle_todo,
-            notes::notes_delete,
-            notes::notes_summarize,
-            notes::notes_retry,
-            notes::notes_markdown,
-            notes::notes_export,
             voice::voice_done,
             voice::voice_say_native,
             update::update_status,
@@ -980,7 +964,6 @@ pub fn run() {
             // Same rule for Mochi's desktop window and the dictation pill.
             desktop::setup(&handle);
             flow::setup(&handle);
-            notes::setup(&handle);
 
             if let Some(win) = island::window(&handle) {
                 // Where Tauri takes the drop itself (Linux), its paths are the
@@ -1036,7 +1019,6 @@ pub fn run() {
             // Withdraw the phone link's announcement on the local network before the process ends.
             if let tauri::RunEvent::Exit = event {
                 phone_link::stop_on_exit(app);
-                notes::shutdown(app);
                 // GOWA started by Coucou stops with it; the conversations were only in memory.
                 whatsapp::shutdown();
             }

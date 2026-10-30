@@ -21,7 +21,19 @@ use sherpa_onnx::{
 };
 use tauri::{AppHandle, Emitter};
 
-use crate::notes::builder::{TimedWord, Turn};
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct TimedWord {
+    pub text: String,
+    pub start: f64,
+    pub end: f64,
+}
+
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct Turn {
+    pub speaker: String,
+    pub start: f64,
+    pub end: f64,
+}
 
 /// Every model works on 16 kHz mono.
 pub const SAMPLE_RATE: u32 = 16_000;
