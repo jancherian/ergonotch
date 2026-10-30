@@ -9,7 +9,5 @@
   RMDir /r "$LOCALAPPDATA\Notch\logs"
   Delete "$LOCALAPPDATA\Notch\logs\app.log"
   Delete "$LOCALAPPDATA\Notch\app.log"
-  RMDir /r "$LOCALAPPDATA\Coucou\bin"
-  RMDir /r "$LOCALAPPDATA\Coucou\inbox"
-  Delete "$LOCALAPPDATA\Coucou\coucou.log"
+  RMDir /r "$LOCALAPPDATA\Coucou"
 !macroend

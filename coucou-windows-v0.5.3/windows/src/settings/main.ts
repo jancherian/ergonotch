@@ -1311,7 +1311,7 @@ function applyLanguage() {
 
 function applyDirection() {
   document.documentElement.dir = isRtl() ? "rtl" : "ltr";
-  document.title = "Coucou";
+  document.title = "Notch";
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────────

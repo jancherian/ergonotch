@@ -179,7 +179,19 @@ pub fn hook_exe_path() -> PathBuf {
 }
 
 fn settings_path() -> PathBuf {
-    config_dir().join("settings.json")
+    let path = config_dir().join("settings.json");
+    if !path.exists() {
+        if let Some(appdata) = std::env::var_os("APPDATA") {
+            let legacy = PathBuf::from(appdata).join("Coucou").join("settings.json");
+            if legacy.exists() {
+                if let Some(parent) = path.parent() {
+                    let _ = std::fs::create_dir_all(parent);
+                }
+                let _ = std::fs::copy(&legacy, &path);
+            }
+        }
+    }
+    path
 }
 
 pub fn load() -> Settings {
