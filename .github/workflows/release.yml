@@ -66,3 +66,19 @@ jobs:
           releaseDraft: false
           prerelease: false
 
+      - name: Package rolling Notch-Setup.exe
+        shell: pwsh
+        run: |
+          $installer = Get-ChildItem coucou-windows-v0.5.3/windows/target/release/bundle/nsis/*-setup.exe | Sort-Object LastWriteTime | Select-Object -Last 1
+          if ($installer) {
+            Write-Host "Found installer: $($installer.FullName)"
+            Copy-Item $installer.FullName "coucou-windows-v0.5.3/windows/target/release/bundle/nsis/Notch-Setup.exe"
+          }
+
+      - name: Upload Notch-Setup.exe to Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            coucou-windows-v0.5.3/windows/target/release/bundle/nsis/Notch-Setup.exe
+

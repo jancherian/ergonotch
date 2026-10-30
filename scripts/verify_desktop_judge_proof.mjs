@@ -256,7 +256,7 @@ async function main() {
 
   log("Clicking camera toggle switch to enable...");
   await camSwitch.click();
-  await mainPage.waitForTimeout(800);
+  await mainPage.waitForTimeout(2000);
 
   const camToggled = await mainPage.evaluate(() => ({
     cameraActive: window.state.cameraActive,
@@ -275,7 +275,7 @@ async function main() {
   } else {
     await camSwitch.click();
   }
-  await mainPage.waitForTimeout(600);
+  await mainPage.waitForTimeout(2000);
 
   const camStopped = await mainPage.evaluate(() => window.state.cameraActive);
   log(`Camera state after pause: ${camStopped}`);

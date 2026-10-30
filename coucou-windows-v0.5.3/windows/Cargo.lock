@@ -719,7 +719,7 @@ dependencies = [
 
 [[package]]
 name = "coucou-hook"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "libc",
  "serde_json",
@@ -2708,7 +2708,7 @@ dependencies = [
 
 [[package]]
 name = "notch"
-version = "1.0.3"
+version = "1.0.4"
 dependencies = [
  "arboard",
  "cpal",

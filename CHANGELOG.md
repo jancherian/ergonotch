@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.0.4] - 2026-10-30
+
+### Removed
+- **Leftover Coucou "Record a call" Island & Microphone Code:**
+  - Completely excised the secondary `520x170` "Record a call" pill window (`pill.html`, `src/pill/main.ts`, `src/pill/pill.css`, `capabilities/default.json`, `vite.config.ts`).
+  - Removed Coucou Notetaker and call recording modules (`src-tauri/src/notes/` and `src-tauri/src/flow/pill.rs`).
+  - Removed unused microphone/WASAPI loopback call recording IPC commands (`pill_*`, `notes_*`).
+
+### Fixed
+- **Desktop Boot & Watchdog Architecture:**
+  - Resolved launch greeting deadlock ensuring smooth transition to user's configured default tab.
+  - Guaranteed unbreakable boot watchdog with a hard 5000 ms ceiling and fallback error recovery banner.
+  - Added `BOOT_READY` DOM marker (`document.body.dataset.ready = "1"`) for deterministic initialization timing.
+- **Documentation & Link Hygiene:**
+  - Updated all documentation, landing pages (`about.html`), and metadata across the repository to v1.0.4.
+  - Verified canonical live web demo URL on GitHub Pages.
+
+---
+
 ## [1.0.3] - 2026-10-30
 
 ### Removed

@@ -305,6 +305,39 @@ Automated test suite `scripts/verify_desktop_judge_proof.mjs` executed over Chro
    - Verified `Program Files\Coucou`: **Does not exist (False)**.
    - Result: **PASS** (100% clean filesystem).
 
+---
+
+## 2026-10-30 - Release v1.0.4 Verification & Package Audit
+
+### Verification Summary
+- **Artifact:** `Notch-Setup.exe` (and `Notch-Windows-1.0.4-setup.exe`)
+- **Version:** `1.0.4` (ProductVersion: `1.0.4.0`, FileVersion: `1.0.4.0`)
+- **File Size:** 59,311,665 bytes (56.56 MB)
+- **SHA256:** `5621127A88FD750CF67E72B76D1A6F89ECE767EF55CAA37B31842A7CC9E2308F`
+
+### Test Suite Results
+1. **Desktop Judge Suite (`scripts/verify_desktop_judge_proof.mjs`): 10/10 PASS**
+   - Silent install from `Notch-Setup.exe`: PASS
+   - Clean profile launch: PASS (`BOOT_READY` at 4096 ms < 5000 ms limit)
+   - Hover expand/collapse: PASS (142.5 FPS inside WebView2, 0 jank frames)
+   - All 6 tabs active & populated: PASS (`judge_tab_focus.png`, `judge_tab_tasks.png`, `judge_tab_habits.png`, `judge_tab_wellbeing.png`, `judge_tab_insights.png`, `judge_tab_settings.png`)
+   - Camera posture enable & pause cycle: PASS (`judge_04_camera_active.png`)
+   - Zero outbound sockets: PASS (`0_SOCKETS` on port scan)
+   - Single-instance mutex: PASS (secondary instance exits with code 0)
+   - Clean relaunch after process kill: PASS
+   - Corrupt settings recovery: PASS
+   - Silent uninstaller: PASS
+
+2. **Web E2E Verification Suite (`scripts/verify_e2e_web.mjs`): 10/10 PASS**
+   - Page load 200 OK, pill render, animation, 6 tabs, focus timer, tasks CRUD, habits localStorage persistence, local posture camera AI, 0 console errors, 0 failed network requests.
+
+3. **Responsive Web Viewports Suite (`scripts/verify_web_viewports_after.mjs`): 90/90 PASS**
+   - 15 resolution/scale configs (1024x600, 1280x720, 1366x768, 1536x864, 1920x1080 at 100%, 125%, 150%) across all 6 tabs with 0 layout clipping or overflow.
+
+4. **GitHub Actions Workflow Upgrade:**
+   - Updated `.github/workflows/release.yml` with automated packaging and asset upload for rolling `Notch-Setup.exe` via `softprops/action-gh-release@v2`.
+
+
 
 
 
