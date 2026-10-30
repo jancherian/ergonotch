@@ -58,7 +58,7 @@ export class IslandStateMachine {
 
   launch() {
     this.cancelTimers();
-    this.transition("coucou");
+    this.transition("petit");
   }
 
   mouseEntered() {

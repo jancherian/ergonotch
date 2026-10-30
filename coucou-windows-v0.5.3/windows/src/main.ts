@@ -188,15 +188,9 @@ async function main() {
   registerShortcutHandlers(island, () => setPaused(false));
   // registerVoiceHandlers();
   // Offline: disabled Claude Code hooks, Phone Link, Integrations, WhatsApp, Updates, Spotify
-  if (IS_TAURI) {
-    island.onGreetingDone = () => {
-      markBootReady();
-    };
-    island.launch();
-  } else {
-    island.fsm.reveal();
-    markBootReady();
-  }
+  State.view = "focus";
+  island.fsm.reveal();
+  markBootReady();
 
   // 5-second watchdog: guarantee boot is never stuck on a loader or greeting
   window.setTimeout(() => {
