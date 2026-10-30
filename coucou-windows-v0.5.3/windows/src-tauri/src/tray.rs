@@ -56,7 +56,10 @@ pub fn build(app: &AppHandle) -> tauri::Result<()> {
         .tooltip("Notch")
         .menu(&menu)
         .on_menu_event(|app: &AppHandle, event| match event.id.as_ref() {
-            "quit" => app.exit(0),
+            "quit" => {
+                crate::request_quit();
+                app.exit(0);
+            }
             "settings" => crate::show_settings_window(app),
             "open" => {
                 let _ = app.emit_to(WINDOW_LABEL, "tray", "open");

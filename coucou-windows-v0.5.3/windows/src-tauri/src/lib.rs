@@ -16,7 +16,7 @@ mod identity;
 mod integrations;
 mod island;
 mod local_chat;
-mod log;
+pub mod log;
 mod net;
 mod openai_compat;
 mod phone_link;
@@ -57,6 +57,16 @@ use settings::Settings;
 pub struct Shared {
     pub settings: Mutex<Settings>,
     pub gate: Arc<PollGate>,
+}
+
+static QUIT_REQUESTED: AtomicBool = AtomicBool::new(false);
+
+pub fn request_quit() {
+    QUIT_REQUESTED.store(true, Ordering::SeqCst);
+}
+
+pub fn is_quit_requested() -> bool {
+    QUIT_REQUESTED.load(Ordering::SeqCst)
 }
 
 #[derive(Serialize)]
@@ -372,6 +382,7 @@ fn open_file_in_vscode(path: String) -> bool {
 
 #[tauri::command]
 fn quit_app(app: AppHandle) {
+    request_quit();
     app.exit(0);
 }
 
@@ -966,11 +977,17 @@ pub fn run() {
             flow::setup(&handle);
 
             if let Some(win) = island::window(&handle) {
-                // Where Tauri takes the drop itself (Linux), its paths are the
-                // ones ingest_file may copy (files.rs).
+                // Intercept close requests to prevent accidental window closure or exit
                 win.on_window_event(|event| {
-                    if let tauri::WindowEvent::DragDrop(tauri::DragDropEvent::Drop { paths, .. }) = event {
-                        files::allow_dropped(paths.iter().map(|p| p.to_string_lossy().to_string()));
+                    match event {
+                        tauri::WindowEvent::CloseRequested { api, .. } => {
+                            log::line("island window CloseRequested -> prevent_close()");
+                            api.prevent_close();
+                        }
+                        tauri::WindowEvent::DragDrop(tauri::DragDropEvent::Drop { paths, .. }) => {
+                            files::allow_dropped(paths.iter().map(|p| p.to_string_lossy().to_string()));
+                        }
+                        _ => {}
                     }
                 });
                 platform::make_non_activating(&win);
@@ -1012,7 +1029,13 @@ pub fn run() {
         .run(|app, event| {
             match &event {
                 tauri::RunEvent::Exit => log::line("RunEvent: Exit"),
-                tauri::RunEvent::ExitRequested { code, .. } => log::line(format!("RunEvent: ExitRequested with code {:?}", code)),
+                tauri::RunEvent::ExitRequested { code, api, .. } => {
+                    log::line(format!("RunEvent: ExitRequested with code {:?}, quit_requested={}", code, is_quit_requested()));
+                    if !is_quit_requested() {
+                        log::line("Preventing unwanted application exit: app will keep running");
+                        api.prevent_exit();
+                    }
+                }
                 tauri::RunEvent::Ready => log::line("RunEvent: Ready"),
                 _ => {}
             }

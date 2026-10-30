@@ -24,6 +24,23 @@ fn is_another_instance_running() -> bool {
 }
 
 fn main() {
+    std::panic::set_hook(Box::new(|panic_info| {
+        let payload = if let Some(s) = panic_info.payload().downcast_ref::<&str>() {
+            (*s).to_string()
+        } else if let Some(s) = panic_info.payload().downcast_ref::<String>() {
+            s.clone()
+        } else {
+            "Unknown panic payload".to_string()
+        };
+        let location = panic_info
+            .location()
+            .map(|l| format!("{}:{}:{}", l.file(), l.line(), l.column()))
+            .unwrap_or_else(|| "unknown location".to_string());
+        let msg = format!("PANIC hook caught panic at {location}: {payload}");
+        eprintln!("{msg}");
+        notch_lib::log::line(msg);
+    }));
+
     #[cfg(windows)]
     if is_another_instance_running() {
         // Another instance is already running; exit cleanly to prevent WebView2 User Data Folder lock collision

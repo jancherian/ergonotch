@@ -334,7 +334,15 @@ fn create_window(app: &AppHandle, _mode: DesktopMode) -> Option<WebviewWindow> {
     }
     let built = builder.build();
     match built {
-        Ok(win) => Some(win),
+        Ok(win) => {
+            win.on_window_event(|event| {
+                if let tauri::WindowEvent::CloseRequested { api, .. } = event {
+                    crate::log::line("desktop Mochi window CloseRequested -> prevent_close()");
+                    api.prevent_close();
+                }
+            });
+            Some(win)
+        }
         Err(err) => {
             crate::log::line(format!("desktop Mochi window failed: {err}"));
             None
