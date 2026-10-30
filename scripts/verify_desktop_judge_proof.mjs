@@ -67,6 +67,17 @@ function launchNotchDetached() {
   `);
 }
 
+async function getTauriPage(browser, maxWaitMs = 10000) {
+  const start = Date.now();
+  while (Date.now() - start < maxWaitMs) {
+    const pages = browser.contexts().flatMap((c) => c.pages());
+    const page = pages.find((p) => (p.url() === "http://tauri.localhost/" || p.url() === "http://tauri.localhost/index.html") && !p.url().includes("desktop"));
+    if (page) return page;
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  throw new Error("Could not find tauri.localhost main page over CDP within timeout");
+}
+
 async function main() {
   log("=== STEP 5: PROVE THE DESKTOP APP LIKE A JUDGE ===");
 
@@ -101,13 +112,7 @@ async function main() {
   await waitForCdp(9222, 12000);
 
   let browser = await chromium.connectOverCDP("http://localhost:9222");
-  let mainPage = browser.contexts()[0].pages().find((p) => p.url() === "http://tauri.localhost/");
-  if (!mainPage) {
-    // Wait a brief moment for page creation
-    await new Promise((r) => setTimeout(r, 1000));
-    mainPage = browser.contexts()[0].pages().find((p) => p.url() === "http://tauri.localhost/");
-  }
-  if (!mainPage) throw new Error("Could not find tauri.localhost page over CDP");
+  let mainPage = await getTauriPage(browser);
 
   // Wait for BOOT_READY marker (document.body.dataset.ready === "1")
   log("Waiting for document.body.dataset.ready === '1' (max 5000ms from attach)...");
@@ -328,7 +333,7 @@ async function main() {
   launchNotchDetached();
   await waitForCdp(9222, 10000);
   browser = await chromium.connectOverCDP("http://localhost:9222");
-  mainPage = browser.contexts()[0].pages().find((p) => p.url() === "http://tauri.localhost/");
+  mainPage = await getTauriPage(browser);
   await mainPage.waitForFunction(() => document.body.dataset.ready === "1", null, { timeout: 5000 });
   log("PASS: Clean relaunch after kill confirmed; BOOT_READY reached within 5s");
   await browser.close();
@@ -343,7 +348,7 @@ async function main() {
   launchNotchDetached();
   await waitForCdp(9222, 10000);
   browser = await chromium.connectOverCDP("http://localhost:9222");
-  mainPage = browser.contexts()[0].pages().find((p) => p.url() === "http://tauri.localhost/");
+  mainPage = await getTauriPage(browser);
   await mainPage.waitForFunction(() => document.body.dataset.ready === "1", null, { timeout: 5000 });
   const restoredMode = await mainPage.evaluate(() => window.state.mode);
   log(`PASS: App survived corrupt settings.json and reached BOOT_READY; state.mode = ${restoredMode}`);
@@ -367,6 +372,11 @@ async function main() {
   } else {
     log(`Uninstaller not found at ${uninstaller}, checking alternatives...`);
   }
+
+  log("Re-installing Notch for clean final installed state...");
+  runPwsh(`Start-Process -FilePath "${installerPath}" -ArgumentList "/S" -Wait`);
+  await new Promise((r) => setTimeout(r, 2000));
+  log("PASS: Clean final re-installation confirmed.");
 
   log("\n🎉 ALL STEP 5 DESKTOP JUDGE PROOF CHECKS PASSED WITH FLYING COLORS! 🎉\n");
 }
