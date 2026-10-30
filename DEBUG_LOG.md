@@ -371,6 +371,60 @@ Automated test suite `scripts/verify_desktop_judge_proof.mjs` executed over Chro
 - **Local Preview About Page:** Returns 200 OK with identical title and links.
 - **Responsive Viewports Suite (`scripts/verify_web_viewports_after.mjs`): 90/90 PASS** across all 15 resolution/scale configs.
 
+---
+
+## 2026-10-30 - Four Desktop Bugs (v1.0.4) Fix & Verification
+
+### Bug 1: CRASH — App closes spontaneously without user exit
+- **Evidence:** Users reported `notch.exe` closing after varying periods without any crash dialog or Windows Error Reporting events.
+- **Root Cause:**
+  1. Tauri 2's event loop automatically exits whenever a window close event occurs or an unhandled exit event bubbles up, unless `api.prevent_exit()` is invoked on `RunEvent::ExitRequested`.
+  2. The frameless layered `island` and `mochi` windows did not attach `on_window_event` handlers with `WindowEvent::CloseRequested => api.prevent_close()`.
+  3. Any system-level or shell message requesting close caused the entire app to exit without error.
+- **Fix:**
+  - In `src-tauri/src/lib.rs`: Added atomic bool `QUIT_REQUESTED`, `request_quit()`, and `is_quit_requested()`.
+  - In `.run()` event loop handler: Added `RunEvent::ExitRequested { api, .. }` check calling `api.prevent_exit()` unless `is_quit_requested()`.
+  - Attached `on_window_event` on the `island` window and `desktop.rs` Mochi window to intercept `WindowEvent::CloseRequested` and call `api.prevent_close()`.
+  - In `src-tauri/src/tray.rs`: System tray `"quit"` menu item explicitly sets `crate::request_quit()` before calling `app.exit(0)`.
+  - Added Rust panic hook in `main.rs` writing panics to `%LOCALAPPDATA%\Notch\logs\app.log`.
+- **Commit:** `66416f0 fix: crash`
+
+### Bug 2: SCROLL — Tabs do not scroll with mouse wheel; Focus tab bottom controls cut off
+- **Evidence:** Focus tab bottom info (action buttons `Start Focus`, `Reset`, and `Attached: Review quarterly project plan`) was clipped; mouse wheel over the card did nothing.
+- **Root Cause:**
+  1. In `src/style.css`, `.card` had `height: 100%; overflow: hidden;` while `.view.on` had `overflow-y: auto`. Since `.card` was constrained to 100% of `.view`, `.view` never overflowed, `.card` clipped its contents, and mouse wheel events over the card were dropped.
+  2. In `src/core/layout.ts`, `VIEW_LAYOUTS.focus.height` was set to 290px, leaving only ~215px inside `.card` after top navigation tabs, sub-status bar, and margins. The timer digits, presets, steppers, buttons, and task row require 320px+.
+- **Fix:**
+  - In `src/core/layout.ts`: Increased `focus`, `overview`, and `empty` layout height from 290px to 350px (and other tab layouts to 340px).
+  - In `src/style.css`: Changed `.card` to `overflow-y: auto; overflow-x: hidden; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.2) transparent;`. Set `.view.on` to `overflow: hidden` to eliminate double scrollbars.
+- **Commit:** `d4e20c8 fix: scroll`
+
+### Bug 3: POPUP — Default empty popup appears on top-middle cursor hover
+- **Evidence:** Moving cursor to the top center of the screen showed an empty/greeting popup or leftover Coucou view instead of the standard Notch Focus panel with real data.
+- **Root Cause:**
+  1. In `src/island/island.ts`, `openingView()` did not sanitize `State.view`, allowing fallback views like `"overview"` or `"empty"` to render.
+  2. `buildEmpty()` and `buildOverview()` in `src/views/views.ts` contained legacy placeholder views from upstream Coucou.
+- **Fix:**
+  - In `src/island/island.ts`: Updated `openingView()` to validate that `State.view` is one of the 6 canonical tabs (`"focus"`, `"tasks"`, `"habits"`, `"wellbeing"`, `"insights"`, `"settings"`), strictly defaulting to `"focus"`. In `expand()`, sanitized the target view similarly.
+  - In `src/views/views.ts`: Replaced `buildEmpty()` body with `return buildFocus(actions);`. In `buildOverview()`, redirected any sync on `"overview"` immediately to `actions.setView("focus")`.
+- **Commit:** `ef8e1ef fix: popup`
+
+### Bug 4: SLOW START — App sits on greeting animation for several seconds
+- **Evidence:** After install and launch, the app was stuck displaying a greeting animation for ~4.9s before showing the collapsed pill.
+- **Root Cause:** Desktop boot in `src/main.ts` invoked `island.launch()`, which triggered `IslandStateMachine.launch()` -> coucou greeting animation with full timer delays.
+- **Fix:**
+  - In `src/main.ts`: Removed `island.launch()` greeting delay on desktop. Replaced with `State.view = "focus"; island.fsm.reveal(); markBootReady();`.
+  - In `src/island/fsm.ts`: Configured `launch()` to transition immediately to `"petit"`.
+- **Measurement:** Warm starts measure between 516ms and 595ms in `%LOCALAPPDATA%\Notch\logs\app.log` (well under the 1.5s requirement).
+- **Commit:** `6d4a9d8 fix: slow start`
+
+### Soak Test Results
+- **Process:** `notch.exe` (PID 29384)
+- **Uptime:** 20+ minutes continuous without restart, exit, or crash.
+- **Memory:** Flat ~38.6 MB WorkingSet, ~11.6 MB Private Bytes.
+- **Sockets:** 0 outbound / 0 listening TCP connections (100% offline).
+
+
 
 
 
