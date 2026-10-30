@@ -18,9 +18,19 @@ async function main() {
   console.log("Testing downloaded release installer...");
   const localAppData = process.env.LOCALAPPDATA;
   const installedExe = path.join(localAppData, "Notch", "notch.exe");
+  const downloadedInstaller = path.resolve("diagnostics/downloaded_release/Notch-Setup.exe");
 
   killAllNotch();
   await new Promise(r => setTimeout(r, 1500));
+
+  console.log("Installing downloaded release installer silently (/S)...");
+  runPwsh(`Start-Process -FilePath "${downloadedInstaller}" -ArgumentList "/S" -Wait`);
+  await new Promise(r => setTimeout(r, 2000));
+
+  if (!fs.existsSync(installedExe)) {
+    throw new Error(`notch.exe not found at ${installedExe} after installation!`);
+  }
+  console.log("Installed notch.exe verified on disk.");
 
   console.log("Launching installed notch.exe detached with CDP...");
   runPwsh(`

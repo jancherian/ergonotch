@@ -337,6 +337,41 @@ Automated test suite `scripts/verify_desktop_judge_proof.mjs` executed over Chro
 4. **GitHub Actions Workflow Upgrade:**
    - Updated `.github/workflows/release.yml` with automated packaging and asset upload for rolling `Notch-Setup.exe` via `softprops/action-gh-release@v2`.
 
+---
+
+## 2026-10-30 - Vercel Multi-Page Vite Configuration & Deployment Fix
+
+### Problem
+- `https://ergonotch.vercel.app/about.html` returned HTTP 200, but `https://ergonotch.vercel.app/` returned HTTP 404 Not Found.
+
+### Root Cause
+1. Vercel was configured to serve the repo root as a static directory without invoking `npm run build`, because `index.html` lives inside `coucou-windows-v0.5.3/windows/` and Vercel's project Root Directory was set to `.`.
+2. `about.html` was not part of the Vite build inputs or `public/` directory inside `coucou-windows-v0.5.3/windows/`, so building Vite did not place `about.html` at the `dist/` root.
+3. No `vercel.json` was configured to specify `framework: "vite"`, `outputDirectory: "dist"`, or security/MIME headers (`Permissions-Policy: camera=(self)`, `application/wasm`, immutable asset caching).
+
+### Solution
+1. **Multi-page Vite Input:** Added `about: resolve(__dirname, "about.html")` to `build.rollupOptions.input` in `coucou-windows-v0.5.3/windows/vite.config.ts`.
+2. **Public Root Mirror:** Placed `about.html` in `coucou-windows-v0.5.3/windows/public/about.html`.
+3. **Vercel Configuration:** Created `coucou-windows-v0.5.3/windows/vercel.json`:
+   - `framework`: `"vite"`
+   - `buildCommand`: `"npm run build"`
+   - `outputDirectory`: `"dist"`
+   - Headers: `Permissions-Policy: camera=(self)` on all routes, `Content-Type: application/wasm` for `.wasm`, and long cache for `/assets/*`. Zero rewrites that shadow or hide `about.html`.
+
+### Verification
+- **Build Output Root (`coucou-windows-v0.5.3/windows/dist`):**
+  - `index.html` (636 bytes): PRESENT
+  - `about.html` (23,269 bytes): PRESENT
+  - `assets/`: PRESENT
+  - `wasm/`: PRESENT
+  - `models/`: PRESENT
+  - `sounds/`: PRESENT
+- **Local Preview E2E Suite (`scripts/verify_e2e_web.mjs`): 10/10 PASS**
+  - Page Load 200 OK, Notch Pill Rendered, 6 Tabs Populated, Focus Timer, Tasks CRUD, Habits persistence, Local Posture MediaPipe AI with fake webcam, 0 console errors, 0 external/failed requests.
+- **Local Preview About Page:** Returns 200 OK with identical title and links.
+- **Responsive Viewports Suite (`scripts/verify_web_viewports_after.mjs`): 90/90 PASS** across all 15 resolution/scale configs.
+
+
 
 
 

@@ -12,8 +12,8 @@
         "tab": "focus",
         "viewportW": 1024,
         "viewportH": 600,
-        "islandBottom": 292.828125,
-        "islandHeight": 292.828125,
+        "islandBottom": 292.328125,
+        "islandHeight": 292.328125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -30,12 +30,12 @@
         "tab": "tasks",
         "viewportW": 1024,
         "viewportH": 600,
-        "islandBottom": 330.4375,
-        "islandHeight": 330.4375,
+        "islandBottom": 330.34375,
+        "islandHeight": 330.34375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -102,8 +102,8 @@
         "tab": "settings",
         "viewportW": 1024,
         "viewportH": 600,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -143,7 +143,7 @@
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -228,8 +228,8 @@
         "tab": "focus",
         "viewportW": 1024,
         "viewportH": 600,
-        "islandBottom": 292.890625,
-        "islandHeight": 292.890625,
+        "islandBottom": 292.359375,
+        "islandHeight": 292.359375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -246,12 +246,12 @@
         "tab": "tasks",
         "viewportW": 1024,
         "viewportH": 600,
-        "islandBottom": 330.203125,
-        "islandHeight": 330.203125,
+        "islandBottom": 330.140625,
+        "islandHeight": 330.140625,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -336,8 +336,8 @@
         "tab": "focus",
         "viewportW": 1280,
         "viewportH": 720,
-        "islandBottom": 292.375,
-        "islandHeight": 292.375,
+        "islandBottom": 292.328125,
+        "islandHeight": 292.328125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -354,12 +354,12 @@
         "tab": "tasks",
         "viewportW": 1280,
         "viewportH": 720,
-        "islandBottom": 330.34375,
-        "islandHeight": 330.34375,
+        "islandBottom": 330.359375,
+        "islandHeight": 330.359375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -426,8 +426,8 @@
         "tab": "settings",
         "viewportW": 1280,
         "viewportH": 720,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -444,8 +444,8 @@
         "tab": "focus",
         "viewportW": 1280,
         "viewportH": 720,
-        "islandBottom": 292.84375,
-        "islandHeight": 292.84375,
+        "islandBottom": 292.3125,
+        "islandHeight": 292.3125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -467,7 +467,7 @@
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -534,8 +534,8 @@
         "tab": "settings",
         "viewportW": 1280,
         "viewportH": 720,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -575,7 +575,7 @@
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -660,8 +660,8 @@
         "tab": "focus",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 292.3125,
-        "islandHeight": 292.3125,
+        "islandBottom": 292.828125,
+        "islandHeight": 292.828125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -678,12 +678,12 @@
         "tab": "tasks",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 330.359375,
-        "islandHeight": 330.359375,
+        "islandBottom": 330.4375,
+        "islandHeight": 330.4375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -786,12 +786,12 @@
         "tab": "tasks",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 330.203125,
-        "islandHeight": 330.203125,
+        "islandBottom": 330.4375,
+        "islandHeight": 330.4375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -858,8 +858,8 @@
         "tab": "settings",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -876,8 +876,8 @@
         "tab": "focus",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 292.328125,
-        "islandHeight": 292.328125,
+        "islandBottom": 292.875,
+        "islandHeight": 292.875,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -894,12 +894,12 @@
         "tab": "tasks",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 330.28125,
-        "islandHeight": 330.28125,
+        "islandBottom": 330.203125,
+        "islandHeight": 330.203125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -966,8 +966,8 @@
         "tab": "settings",
         "viewportW": 1366,
         "viewportH": 768,
-        "islandBottom": 340.09375,
-        "islandHeight": 340.09375,
+        "islandBottom": 340.109375,
+        "islandHeight": 340.109375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -984,8 +984,8 @@
         "tab": "focus",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 292.3125,
-        "islandHeight": 292.3125,
+        "islandBottom": 292.328125,
+        "islandHeight": 292.328125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1002,12 +1002,12 @@
         "tab": "tasks",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 330.4375,
-        "islandHeight": 330.4375,
+        "islandBottom": 330.359375,
+        "islandHeight": 330.359375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1074,8 +1074,8 @@
         "tab": "settings",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1092,8 +1092,8 @@
         "tab": "focus",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 292.296875,
-        "islandHeight": 292.296875,
+        "islandBottom": 292.328125,
+        "islandHeight": 292.328125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1110,12 +1110,12 @@
         "tab": "tasks",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 330.203125,
-        "islandHeight": 330.203125,
+        "islandBottom": 330.359375,
+        "islandHeight": 330.359375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1182,8 +1182,8 @@
         "tab": "settings",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 340.109375,
-        "islandHeight": 340.109375,
+        "islandBottom": 340.09375,
+        "islandHeight": 340.09375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1200,8 +1200,8 @@
         "tab": "focus",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 292.859375,
-        "islandHeight": 292.859375,
+        "islandBottom": 292.34375,
+        "islandHeight": 292.34375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1218,12 +1218,12 @@
         "tab": "tasks",
         "viewportW": 1536,
         "viewportH": 864,
-        "islandBottom": 330.28125,
-        "islandHeight": 330.28125,
+        "islandBottom": 330.203125,
+        "islandHeight": 330.203125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1308,8 +1308,8 @@
         "tab": "focus",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 292.328125,
-        "islandHeight": 292.328125,
+        "islandBottom": 292.34375,
+        "islandHeight": 292.34375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1326,12 +1326,12 @@
         "tab": "tasks",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 330.359375,
-        "islandHeight": 330.359375,
+        "islandBottom": 330.34375,
+        "islandHeight": 330.34375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1398,8 +1398,8 @@
         "tab": "settings",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 340.09375,
-        "islandHeight": 340.09375,
+        "islandBottom": 340.109375,
+        "islandHeight": 340.109375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1416,8 +1416,8 @@
         "tab": "focus",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 292.3125,
-        "islandHeight": 292.3125,
+        "islandBottom": 292.328125,
+        "islandHeight": 292.328125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1434,12 +1434,12 @@
         "tab": "tasks",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 330.28125,
-        "islandHeight": 330.28125,
+        "islandBottom": 330.359375,
+        "islandHeight": 330.359375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1524,8 +1524,8 @@
         "tab": "focus",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 292.859375,
-        "islandHeight": 292.859375,
+        "islandBottom": 292.3125,
+        "islandHeight": 292.3125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
@@ -1542,12 +1542,12 @@
         "tab": "tasks",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 330.28125,
-        "islandHeight": 330.28125,
+        "islandBottom": 330.203125,
+        "islandHeight": 330.203125,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
-        "contentLength": 515
+        "contentLength": 522
       }
     },
     {
@@ -1614,8 +1614,8 @@
         "tab": "settings",
         "viewportW": 1920,
         "viewportH": 1080,
-        "islandBottom": 340.09375,
-        "islandHeight": 340.09375,
+        "islandBottom": 340.109375,
+        "islandHeight": 340.109375,
         "isClippedByViewport": false,
         "isScrollable": true,
         "viewOpacity": "1",
