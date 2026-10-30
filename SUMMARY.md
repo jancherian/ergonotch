@@ -113,7 +113,7 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 | :--- | :--- | :--- |
 | **🚀 Public Live Web Demo** | [https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/) | ✅ Live & verified (10/10 PASS) |
 | **📖 Product Landing Page** | [https://jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | ✅ Live & functional |
-| **📦 Windows Installer (.exe)** | [GitHub Releases v1.0.1](https://github.com/jancherian/ergonotch/releases/tag/v1.0.1) | ✅ Published `Notch-Setup.exe` (v1.0.1) |
+| **📦 Windows Installer (.exe)** | [GitHub Releases v1.0.2](https://github.com/jancherian/ergonotch/releases/tag/v1.0.2) | ✅ Published `Notch-Setup.exe` (v1.0.2) |
 | **⚙️ GitHub Actions Workflow** | [`.github/workflows/release.yml`](.github/workflows/release.yml) | ✅ Configured for tag triggers |
 | **💻 Local Desktop App** | `notch.exe` (Windows 10/11 x64) | ✅ Verified single-instance & offline |
 | **📁 Packaged Installer** | [`coucou-windows-v0.5.3/windows/release/Notch-Setup.exe`](./coucou-windows-v0.5.3/windows/release/Notch-Setup.exe) | ✅ NSIS installer built & verified |
@@ -142,7 +142,7 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 ## 🚀 How to Set Up & Run
 
 ### 1. One-Click Windows Install
-- Download and run [`Notch-Setup.exe`](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe).
+- Download and run [`Notch-Setup.exe`](https://github.com/jancherian/ergonotch/releases/download/v1.0.2/Notch-Setup.exe).
 - *Windows SmartScreen note:* Click **"More info"** → **"Run anyway"**.
 - The notch appears at the top-center of your screen immediately.
 

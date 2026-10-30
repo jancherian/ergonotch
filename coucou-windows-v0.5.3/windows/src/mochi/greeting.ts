@@ -10,20 +10,20 @@ import { COMPACT_W, NOTCH_H, NOTCH_W } from "../core/layout";
 // ── Timing (GT in the Swift file) ─────────────────────────────────────────────
 
 const T = {
-  pop0: 1.3,
-  pop1: 1.45,
-  content0: 2.4,
-  tuck0: 2.45,
-  tuck1: 2.7,
-  badge: 2.72,
-  down0: 2.85,
-  down1: 3.45,
-  blink2: 3.7,
-  tint0: 3.85,
-  tint1: 4.15,
-  end: 4.6,
-  autoLeave: 4.9,
-  COLLAPSE: 0.34,
+  pop0: 1.1,
+  pop1: 1.25,
+  content0: 2.0,
+  tuck0: 2.05,
+  tuck1: 2.3,
+  badge: 2.32,
+  down0: 2.45,
+  down1: 2.95,
+  blink2: 3.1,
+  tint0: 3.2,
+  tint1: 3.45,
+  end: 3.6,
+  autoLeave: 3.8,
+  COLLAPSE: 0.3,
 };
 
 export const GREETING_END = T.end;
@@ -164,7 +164,7 @@ function greetPose(t: number): Pose {
     const k = seg(t, tb, tb + 0.12);
     return k > 0 && k < 1 ? 1 - Math.sin(Math.PI * k) * 0.94 : 1;
   };
-  const open = Math.min(blink(1.95), blink(3.05), blink(T.blink2));
+  const open = Math.min(blink(1.65), blink(2.65), blink(T.blink2));
 
   // Look
   let lookX = 0;

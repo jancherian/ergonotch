@@ -350,13 +350,23 @@ export class Island {
           this.setMode("hidden");
           break;
         case "petit":
-          if (from === "coucou") this.greeting.interrupt();
-          else if (from === "hidden" && !this.silentReveal) Sound.play("peek");
+          if (from === "coucou") {
+            this.greeting.interrupt();
+            this.greeting.leave();
+            this.onGreetingDone?.();
+          } else if (from === "hidden" && !this.silentReveal) {
+            Sound.play("peek");
+          }
           this.setMode("compact");
           if (from === "coucou") State.view = State.defaultView();
           if (!this.wasInIsland) this.fsm.mouseLeft();
           break;
         case "home":
+          if (from === "coucou") {
+            this.greeting.interrupt();
+            this.greeting.leave();
+            this.onGreetingDone?.();
+          }
           this.expand(this.openingView());
           if (!this.wasInIsland) this.fsm.mouseLeft();
           // Hooks may have been installed in a terminal since: the idle cards
@@ -416,7 +426,13 @@ export class Island {
   expand(view: IslandViewName) {
     this.stopSequenceIfLeaving(view);
     if (view !== "overview") closePlanCard();
-    State.view = view;
+    // Prevent expanding into greeting after boot/greeting is finished
+    const target = view === "greeting" && this.fsm.state !== "coucou" ? State.defaultView() : view;
+    State.view = target;
+    this.fsm.cancelTimers();
+    if (this.fsm.state !== "home") {
+      (this.fsm as any).state = "home";
+    }
     if (State.mode !== "expanded") this.setMode("expanded");
     else this.animateGeometry(false);
     State.lastActivity = performance.now();
@@ -693,6 +709,13 @@ export class Island {
     let { w, h } = islandSize(State.mode, State.view, State.chatHistory.length);
     if (State.mode === "expanded" && State.view === "question" && State.pendingApproval?.questions) {
       h = QUESTION_PICKER_H;
+    }
+    // Clamp expanded height to viewport with safe margins
+    if (State.mode === "expanded") {
+      const maxH = typeof window !== "undefined" && window.innerHeight > 100
+        ? Math.max(160, window.innerHeight - 36)
+        : 380;
+      h = Math.min(h, maxH);
     }
     const r = State.mode === "expanded" ? EXPANDED_CORNER : ROUNDED_CORNER;
     return { w, h, r };

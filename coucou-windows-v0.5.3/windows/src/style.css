@@ -343,6 +343,8 @@ body {
   position: relative;
   flex: 1 1 auto;
   min-height: 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .view {
@@ -351,6 +353,8 @@ body {
   opacity: 0;
   transform: translateY(4px);
   pointer-events: none;
+  min-width: 0;
+  box-sizing: border-box;
   transition: opacity 0.14s ease-out, transform 0.14s ease-out;
   will-change: transform, opacity;
 }
@@ -359,8 +363,26 @@ body {
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
   transition: opacity 0.22s ease-out, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
+}
+
+.view::-webkit-scrollbar {
+  width: 5px;
+}
+.view::-webkit-scrollbar-track {
+  background: transparent;
+}
+.view::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+.view::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3112,12 +3134,15 @@ html[data-dir="rtl"] #views :is(.bubble, .reply .md-p, .reply .md-h, .reply .md-
 /* ── Notch View Components ─────────────────────────────────────────────────── */
 
 .notch-view-body {
-  padding: 10px 16px 10px 116px;
+  padding: 10px 16px 16px 116px;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: auto;
+  min-height: 100%;
+  min-width: 0;
   box-sizing: border-box;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .notch-view-header {

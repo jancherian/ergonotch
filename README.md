@@ -5,7 +5,7 @@
 
 [![Live Web Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-success?style=for-the-badge&logo=github)](https://jancherian.github.io/ergonotch/)
 [![Landing Page](https://img.shields.io/badge/Product-Landing%20Page-9333ea?style=for-the-badge&logo=googlechrome)](https://jancherian.github.io/ergonotch/about.html)
-[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe)
+[![Windows Installer](https://img.shields.io/badge/Download-Windows%20Setup%20.exe-blueviolet?style=for-the-badge&logo=windows)](https://github.com/jancherian/ergonotch/releases/download/v1.0.2/Notch-Setup.exe)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](https://github.com/jancherian/ergonotch/blob/main/LICENSE)
 
 ---
@@ -16,7 +16,7 @@
 | :--- | :--- | :--- |
 | **🚀 Public Live Web Demo** | [jancherian.github.io/ergonotch](https://jancherian.github.io/ergonotch/) | One-click interactive in-browser demo. Runs local MediaPipe WASM posture analysis via `getUserMedia` with zero install. |
 | **📖 Product Landing Page** | [jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | Single-page product overview, architecture breakdown, module guide, and privacy philosophy. |
-| **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.1)](https://github.com/jancherian/ergonotch/releases/download/v1.0.1/Notch-Setup.exe) | NSIS single-user installer. No administrator rights required. |
+| **📦 Windows Desktop App (.exe)** | [Download Notch-Setup.exe (v1.0.2)](https://github.com/jancherian/ergonotch/releases/download/v1.0.2/Notch-Setup.exe) | NSIS single-user installer. No administrator rights required. |
 | **🎥 Backup Demo Walkthrough** | [DEMO_SCRIPT.md](./DEMO_SCRIPT.md) | 2-minute judge-ready walkthrough script & backup demo presentation checklist. |
 
 > 🛡️ **Windows SmartScreen Note:** The installer is unsigned (standard for hackathon projects). If Windows SmartScreen prompts on first launch, click **"More info"** → **"Run anyway"**.

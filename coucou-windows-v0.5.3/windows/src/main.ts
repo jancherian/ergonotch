@@ -8,14 +8,60 @@ import { Island } from "./island/island";
 import { registerShortcutHandlers } from "./island/shortcuts";
 import { onLanguageChange, resolveLanguage, setLanguage, systemLanguages } from "./i18n/i18n";
 
+// Global error handlers logging to app.log
+window.onerror = (message, source, lineno, colno, error) => {
+  const errStr = `[Window Error] ${message} at ${source}:${lineno}:${colno} - ${error?.stack || error}`;
+  console.error(errStr);
+  void Bridge.log(errStr);
+  return false;
+};
+
+window.addEventListener("unhandledrejection", (event) => {
+  const reason = event.reason instanceof Error ? event.reason.stack || event.reason.message : String(event.reason);
+  const errStr = `[Unhandled Rejection] ${reason}`;
+  console.error(errStr);
+  void Bridge.log(errStr);
+});
+
+/** Helper to wrap any optional boot promise with a hard timeout and fallback */
+async function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T, name: string): Promise<T> {
+  let timer: number | null = null;
+  const timeoutPromise = new Promise<T>((resolve) => {
+    timer = window.setTimeout(() => {
+      console.warn(`[Boot] ${name} timed out after ${ms}ms - using fallback`);
+      void Bridge.log(`[Boot] ${name} timed out after ${ms}ms - using fallback`);
+      resolve(fallback);
+    }, ms);
+  });
+  try {
+    const res = await Promise.race([promise, timeoutPromise]);
+    if (timer) clearTimeout(timer);
+    return res;
+  } catch (err) {
+    if (timer) clearTimeout(timer);
+    console.error(`[Boot] ${name} failed:`, err);
+    void Bridge.log(`[Boot] ${name} failed: ${err}`);
+    return fallback;
+  }
+}
+
 /** Shows the language Settings asks for ("" = the system's, when Coucou has it). */
 function applyLanguage() {
   setLanguage(resolveLanguage(State.settings.language, systemLanguages()));
 }
 
 async function main() {
+  const bootStartTime = performance.now();
   const root = document.getElementById("root");
   if (!root) return;
+
+  const markBootReady = () => {
+    if (document.body.dataset.ready === "1") return;
+    document.body.dataset.ready = "1";
+    const elapsed = Math.round(performance.now() - bootStartTime);
+    console.log(`BOOT_READY ${elapsed}ms`);
+    void Bridge.log(`BOOT_READY ${elapsed}ms`);
+  };
 
   void Sound.preload();
 
@@ -24,7 +70,7 @@ async function main() {
   // wait until the ratio updates (or up to 500ms) so nothing is sized against
   // the stale value.
   const dprBefore = window.devicePixelRatio || 1;
-  const zoomChanged = await Bridge.fitZoom(dprBefore);
+  const zoomChanged = await withTimeout(Bridge.fitZoom(dprBefore), 2000, false, "fitZoom");
   if (zoomChanged) {
     for (let i = 0; i < 20 && window.devicePixelRatio === dprBefore; i++) {
       await new Promise((r) => setTimeout(r, 25));
@@ -37,7 +83,7 @@ async function main() {
   (window as any).island = island;
   (window as any).state = State;
 
-  const boot = await Bridge.boot();
+  const boot = await withTimeout(Bridge.boot(), 2000, null, "bridgeBoot");
   if (boot) {
     State.settings = { ...State.settings, ...boot.settings };
   }
@@ -51,7 +97,7 @@ async function main() {
   island.applySettings();
   State.tasks = [];
   if (boot && !boot.cursorPoll) island.followPageCursor();
-  await island.desktop.init();
+  await withTimeout(island.desktop.init(), 2000, undefined, "desktopInit");
 
   await onEvent<{ x: number; y: number }>("cursor", ({ x, y }) => island.onCursor(x, y));
   await onEvent<boolean>("pointer-inside", (inside) => island.setPointerInside(inside));
@@ -143,10 +189,26 @@ async function main() {
   // registerVoiceHandlers();
   // Offline: disabled Claude Code hooks, Phone Link, Integrations, WhatsApp, Updates, Spotify
   if (IS_TAURI) {
+    island.onGreetingDone = () => {
+      markBootReady();
+    };
     island.launch();
   } else {
     island.fsm.reveal();
+    markBootReady();
   }
+
+  // 5-second watchdog: guarantee boot is never stuck on a loader or greeting
+  window.setTimeout(() => {
+    if (document.body.dataset.ready !== "1") {
+      console.warn("Boot watchdog triggered at 5s - forcing ready state");
+      void Bridge.log("Boot watchdog triggered at 5s - forcing ready state");
+      if (island.fsm.state === "coucou") {
+        island.fsm.forceHome();
+      }
+      markBootReady();
+    }
+  }, 5000);
 
   // Stage 12A: Browser Live Web Preview mode
   if (!IS_TAURI) {

@@ -114,6 +114,11 @@ export class IslandStateMachine {
 
   click() {
     this.byHover = false;
+    if (this.state === "coucou") {
+      this.cancelTimers();
+      this.transition("home");
+      return;
+    }
     if (this.state !== "petit") return;
     this.cancelTimers();
     this.transition("home");
@@ -122,7 +127,7 @@ export class IslandStateMachine {
   /** Greeting animation finished (T.end). Doesn't override a running hover timer. */
   greetComplete() {
     if (this.state !== "coucou") return;
-    if (this.greetCollapse == null) this.scheduleGreetCollapse(this.greetAutoCollapseDelay);
+    if (this.greetCollapse == null) this.scheduleGreetCollapse(0.2);
   }
 
   /** Non-alert work event: show compact from hidden. */

@@ -76,14 +76,14 @@ export const WAKE_STRIP_W = 240;
 export const WAKE_STRIP_H = 6;
 
 export const VIEW_LAYOUTS: Record<IslandViewName, ViewLayout> = {
-  focus: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  tasks: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  habits: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  wellbeing: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  insights: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  settings: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  overview: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
-  empty: { height: 270, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  focus: { height: 290, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  tasks: { height: 330, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  habits: { height: 330, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  wellbeing: { height: 330, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  insights: { height: 330, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  settings: { height: 340, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  overview: { height: 290, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
+  empty: { height: 290, botX: 68, botY: null, botDiameter: 54, agentMode: "none" },
   approval: { height: 160, botX: 62, botY: null, botDiameter: 56, agentMode: "column" },
   question: { height: 160, botX: 62, botY: null, botDiameter: 56, agentMode: "column" },
   error: { height: 160, botX: 62, botY: null, botDiameter: 58, agentMode: "column" },

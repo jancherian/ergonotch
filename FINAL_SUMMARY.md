@@ -19,7 +19,7 @@ All machine vision and posture analysis models run **100% locally on your hardwa
 | :--- | :--- | :--- |
 | **Public Live Web Demo** | [https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/) | ✅ 10/10 E2E tests passing |
 | **Product Landing Page** | [https://jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | ✅ Live & responsive |
-| **Windows Release Installer** | [GitHub Releases v1.0.1](https://github.com/jancherian/ergonotch/releases/tag/v1.0.1) | ✅ Packaged (`Notch-Setup.exe`, 54.35 MB) |
+| **Windows Release Installer** | [GitHub Releases v1.0.2](https://github.com/jancherian/ergonotch/releases/tag/v1.0.2) | ✅ Packaged (`Notch-Setup.exe`, 54.57 MB) |
 | **Packaged Installer Binary** | `./coucou-windows-v0.5.3/windows/release/Notch-Setup.exe` | ✅ Built & verified locally |
 | **2-Minute Demo Script** | [`./DEMO_SCRIPT.md`](./DEMO_SCRIPT.md) | ✅ Presentation-ready for judges |
 | **Running Debug Log** | [`./DEBUG_LOG.md`](./DEBUG_LOG.md) | ✅ Full triage, root causes & proofs |

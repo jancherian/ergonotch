@@ -551,7 +551,9 @@ class AppState {
    */
   defaultView(): IslandViewName {
     if (this.pendingApproval) return this.pendingApproval.questions ? "question" : "approval";
-    return this.view || "focus";
+    const validTabs: IslandViewName[] = ["focus", "tasks", "habits", "wellbeing", "insights", "settings"];
+    if (this.view && validTabs.includes(this.view)) return this.view;
+    return "focus";
   }
 }
 

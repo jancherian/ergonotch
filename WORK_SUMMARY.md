@@ -122,6 +122,47 @@ This document provides a comprehensive, chronological record of all engineering 
 
 ---
 
+### PART 10: Deep Desktop Boot & Viewport Resolution (Problems A & B)
+* **Problem A — Desktop App Stuck on Greeting / Black Box Panel:**
+  * *Symptom:* `notch.exe` launched, but remained stuck on the greeting canvas. Expanding the notch revealed a black box with two greeting icons and zero content (`#content opacity: 0`).
+  * *Root Cause:*
+    1. `State.defaultView()` returned `this.view || "focus"`. When `island.launch()` started the greeting, `this.view` became `"greeting"`.
+    2. Transition out of `"coucou"` called `State.defaultView()`, which returned `"greeting"`. Thus `State.view` remained locked as `"greeting"`.
+    3. Expanding the notch while `State.view === "greeting"` hid `#content` and showed only `#greeting-canvas`.
+    4. Pending `greetCollapse` timer in `fsm.ts` collided with manual expand triggers.
+  * *Fix:*
+    1. Validated `State.defaultView()` to strictly match active tabs (`focus`, `tasks`, `habits`, `wellbeing`, `insights`, `settings`), defaulting to `"focus"`.
+    2. Reset `State.view = State.defaultView()` on `"coucou"` exit.
+    3. In `island.expand()`, cancelled pending FSM timers (`this.fsm.cancelTimers()`) and set FSM state to `"home"`.
+    4. Tuned greeting timeline in `mochi/greeting.ts` to `T.end: 3.6s, autoLeave: 3.8s` so Mochi completes cleanly in ~3.8s, well within 5.0s.
+    5. Implemented a 5-second watchdog in `main.ts` that forces `island.fsm.forceHome()` and renders default UI if any promise stalls.
+    6. Added `BOOT_READY <ms>` marker and `document.body.dataset.ready = "1"`.
+* **Problem B — Viewport Truncation & Missing Scrollbars:**
+  * *Symptom:* On smaller displays or high DPI scaling (e.g. 1024x600 at 1.5x scale), view content was truncated with no ability to scroll.
+  * *Root Cause:* Fixed 270px container height and `overflow: hidden` without internal `overflow-y: auto`.
+  * *Fix:*
+    1. Enabled `overflow-y: auto; overflow-x: hidden; min-width: 0;` on `.view.on` with thin custom scrollbars.
+    2. Made `.notch-view-body` responsive with dynamic height and safe padding.
+    3. Expanded view layout heights in `layout.ts` (Focus: 290px, Tasks/Habits/Wellbeing/Insights: 330px, Settings: 340px).
+    4. Clamped desktop window height to 380px within the monitor work area.
+* **Desktop Judge Verification Suite (10/10 PASS):**
+  * Executed `scripts/verify_desktop_judge_proof.mjs` against installed production `notch.exe`:
+    1. Silent Install: **PASS**
+    2. Clean Profile & `BOOT_READY`: **PASS (4326 ms)**
+    3. Hover Expand, Collapse & FPS: **PASS (139.7 FPS in WebView2)**
+    4. All 6 Tabs Render Real Content: **PASS (Focus, Tasks, Habits, Wellbeing, Insights, Settings all opacity = 1 with full DOM)**
+    5. Camera Enable & Hardware Pause: **PASS**
+    6. Privacy Isolation: **PASS (0 open TCP sockets)**
+    7. Single-Instance Mutex: **PASS (Secondary ExitCode 0)**
+    8. Relaunch After Kill: **PASS**
+    9. Corrupt Settings Recovery: **PASS**
+    10. Silent Uninstall: **PASS**
+* **Web Viewport Suite (90/90 PASS):**
+  * Executed `scripts/verify_web_viewports_after.mjs` across 15 viewport/scale configurations with 0 failures, 0 console errors, and 0 external requests.
+* **Version Bump:** Bumped to **`v1.0.2`** across `package.json`, `Cargo.toml`, `tauri.conf.json`, `views.ts`, and documentation.
+
+---
+
 ## 🔍 Key Technical Insights & Edge Cases Solved
 
 1. **Windows Terminal GUI Subsystem Error `0x800700e8`:**
@@ -143,9 +184,10 @@ This document provides a comprehensive, chronological record of all engineering 
 | :--- | :--- | :--- |
 | **🚀 Public Live Web Demo** | [https://jancherian.github.io/ergonotch/](https://jancherian.github.io/ergonotch/) | ✅ Live (10/10 E2E tests passing) |
 | **📖 Product Landing Page** | [https://jancherian.github.io/ergonotch/about.html](https://jancherian.github.io/ergonotch/about.html) | ✅ Live & responsive |
-| **📦 Windows Installer (.exe)** | [Release v1.0.1 on GitHub](https://github.com/jancherian/ergonotch/releases/tag/v1.0.1) | ✅ Packaged (`Notch-Setup.exe`, 54.35 MB) |
+| **📦 Windows Installer (.exe)** | [Release v1.0.2 on GitHub](https://github.com/jancherian/ergonotch/releases/tag/v1.0.2) | ✅ Packaged (`Notch-Setup.exe`, 54.57 MB) |
 | **📁 Local Installer File** | `./coucou-windows-v0.5.3/windows/release/Notch-Setup.exe` | ✅ Built & verified locally |
 | **🎬 Presentation & Demo Script** | [`./DEMO_SCRIPT.md`](./DEMO_SCRIPT.md) | ✅ Ready for judges |
 | **📋 Running Debug Log** | [`./DEBUG_LOG.md`](./DEBUG_LOG.md) | ✅ Triage & proofs logged |
 | **📚 Full Documentation** | [`./README.md`](./README.md) | ✅ Updated with Troubleshooting guide |
 | **🌿 Project Summary** | [`./SUMMARY.md`](./SUMMARY.md) | ✅ Updated & verified |
+
